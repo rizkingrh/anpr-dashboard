@@ -7,7 +7,10 @@ class MainController extends Controller {
     public function dashboard() {
         $data = History::all();
         $totalData = History::count();
-        return view('pages.dashboard', compact('data', 'totalData'));
+        return view('dashboard', compact('data', 'totalData'));
+    }
+    public function tespage() {
+        return view('tespage');
     }
     
     public function emailInbox() {

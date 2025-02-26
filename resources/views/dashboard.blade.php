@@ -16,6 +16,12 @@
 	<link href="/assets/plugins/datatables.net-keytable-bs5/css/keyTable.bootstrap5.min.css" rel="stylesheet" />
 	<link href="/assets/plugins/datatables.net-rowreorder-bs5/css/rowReorder.bootstrap5.min.css" rel="stylesheet" />
 	<link href="/assets/plugins/datatables.net-select-bs5/css/select.bootstrap5.min.css" rel="stylesheet" />
+
+	{{-- Image --}}
+	<link href="/assets/plugins/lightbox2/dist/css/lightbox.css" rel="stylesheet" />
+
+	<link href="/assets/plugins/superbox/superbox.min.css" rel="stylesheet" />
+	<link href="/assets/plugins/lity/dist/lity.min.css" rel="stylesheet" />
 @endpush
 
 @push('scripts')
@@ -55,6 +61,16 @@
 	<script src="/assets/js/demo/table-manage-combine.demo.js"></script>
 	<script src="/assets/plugins/@highlightjs/cdn-assets/highlight.min.js"></script>
 	<script src="/assets/js/demo/render.highlight.js"></script>
+
+	{{-- Image --}}
+	<script src="/assets/plugins/isotope-layout/dist/isotope.pkgd.min.js"></script>
+	<script src="/assets/plugins/lightbox2/dist/js/lightbox.min.js"></script>
+	<script src="/assets/js/demo/gallery.demo.js"></script>
+
+	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false"></script>
+	<script src="/assets/plugins/superbox/jquery.superbox.min.js"></script>
+	<script src="/assets/plugins/lity/dist/lity.min.js"></script>
+	<script src="/assets/js/demo/profile.demo.js"></script>
 @endpush
 
 @section('content')
@@ -126,7 +142,6 @@
 				<a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
 				<a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i class="fa fa-redo"></i></a>
 				<a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
-				<a href="javascript:;" class="btn btn-xs btn-icon btn-danger" data-toggle="panel-remove"><i class="fa fa-times"></i></a>
 			</div>
 		</div>
 		<!-- END panel-heading -->
@@ -137,12 +152,12 @@
 					<tr>
 						<th width="1%">No</th>
 						<th class="text-nowrap">Number Plates</th>
+						<th class="text-nowrap">Plate Images</th>
 						<th class="text-nowrap">Time</th>
 						<th class="text-nowrap">Date</th>
-
+						<th width="1%" data-orderable="false"></th>
 					</tr>
 				</thead>
-				
 				<tbody>
 					@foreach ($data as $item)
 						<tr class="odd">
@@ -153,10 +168,18 @@
 								{{ $item->numberplate }}
                             </td>
 							<td>
+								<a href="{{ asset($item->image) }}" data-lity>
+									<img src="{{ asset($item->image) }}" alt="Plate Number" style="height:35px;">
+								</a>
+							</td>
+							<td>
 								{{ $item->time }}
 							</td>
 							<td>
 								{{ $item->date }}
+							</td>
+							<td width="1%">
+								<a href="#" class="btn btn-primary"><i class="fas fa-pen-to-square fa-sm"></i></a>
 							</td>
 						</tr>
 					@endforeach
@@ -165,5 +188,4 @@
 		</div>
 		<!-- END panel-body -->
 	</div>
-
 @endsection

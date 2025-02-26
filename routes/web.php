@@ -18,6 +18,7 @@ Route::get('/', function () {
 	return redirect('/dashboard');
 });
 Route::get('/dashboard', [MainController::class, 'dashboard'])->name('dashboard');
+Route::get('/tes', [MainController::class, 'tespage'])->name('tespage');
 
 Route::get('/email/inbox', 'MainController@emailInbox')->name('email-inbox');
 Route::get('/email/compose', 'MainController@emailCompose')->name('email-compose');
