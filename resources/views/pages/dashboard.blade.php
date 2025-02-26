@@ -81,7 +81,7 @@
                 <div class="stats-icon"><i class="fa fa-link"></i></div>
                 <div class="stats-info">
                     <h4>BOUNCE RATE</h4>
-                    <p>20.44%</p>
+                    <p>20%</p>
                 </div>
             </div>
         </div>
