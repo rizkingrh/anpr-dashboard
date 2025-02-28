@@ -18,8 +18,6 @@
 	<link href="/assets/plugins/datatables.net-select-bs5/css/select.bootstrap5.min.css" rel="stylesheet" />
 
 	{{-- Image --}}
-	<link href="/assets/plugins/lightbox2/dist/css/lightbox.css" rel="stylesheet" />
-
 	<link href="/assets/plugins/superbox/superbox.min.css" rel="stylesheet" />
 	<link href="/assets/plugins/lity/dist/lity.min.css" rel="stylesheet" />
 @endpush
@@ -63,14 +61,31 @@
 	<script src="/assets/js/demo/render.highlight.js"></script>
 
 	{{-- Image --}}
-	<script src="/assets/plugins/isotope-layout/dist/isotope.pkgd.min.js"></script>
-	<script src="/assets/plugins/lightbox2/dist/js/lightbox.min.js"></script>
-	<script src="/assets/js/demo/gallery.demo.js"></script>
-
 	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false"></script>
 	<script src="/assets/plugins/superbox/jquery.superbox.min.js"></script>
 	<script src="/assets/plugins/lity/dist/lity.min.js"></script>
 	<script src="/assets/js/demo/profile.demo.js"></script>
+
+	{{-- SweetAlert --}}
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script>
+		function confirmDelete(id) {
+			Swal.fire({
+				title: "Apakah Anda yakin?",
+				text: "Data yang dihapus tidak dapat dikembalikan!",
+				icon: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#d33",
+				cancelButtonColor: "#3085d6",
+				confirmButtonText: "Ya, hapus!",
+				cancelButtonText: "Batal"
+			}).then((result) => {
+				if (result.isConfirmed) {
+					document.getElementById('delete-form-' + id).submit();
+				}
+			});
+		}
+	</script>
 @endpush
 
 @section('content')
@@ -179,7 +194,16 @@
 								{{ $item->date }}
 							</td>
 							<td width="1%">
-								<a href="#" class="btn btn-primary"><i class="fas fa-pen-to-square fa-sm"></i></a>
+								<div class="d-flex gap-2">
+									<a href="#" class="btn btn-primary"><i class="fas fa-pen-to-square fa-sm"></i></a>
+									<form id="delete-form-{{ $item->id }}" action="{{ route('dashboard.destroy', $item->id) }}" method="post">
+										@csrf
+										@method('DELETE')
+										<button type="button" class="btn btn-danger" onclick="confirmDelete({{ $item->id }})">
+											<i class="fas fa-trash-can fa-sm"></i>
+										</button>
+									</form>
+								</div>
 							</td>
 						</tr>
 					@endforeach

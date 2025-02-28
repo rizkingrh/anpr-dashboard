@@ -11,13 +11,18 @@
 |
 */
 
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
 	return redirect('/dashboard');
 });
-Route::get('/dashboard', [MainController::class, 'dashboard'])->name('dashboard');
+Route::resource('dashboard', HistoryController::class);
+// Route::get('/dashboard', [HistoryController::class, 'index'])->name('dashboard');
+
+
+
 Route::get('/tes', [MainController::class, 'tespage'])->name('tespage');
 
 Route::get('/email/inbox', 'MainController@emailInbox')->name('email-inbox');
