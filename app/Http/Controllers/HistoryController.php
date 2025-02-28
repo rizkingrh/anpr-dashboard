@@ -14,7 +14,7 @@ class HistoryController extends Controller
     {
         $data = History::all();
         $totalData = History::count();
-        return view('dashboard', compact('data', 'totalData'));
+        return view('history', compact('data', 'totalData'));
     }
 
     /**
@@ -52,9 +52,22 @@ class HistoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, History $history)
+    public function update(Request $request, $id)
     {
-        //
+        $history = History::find($id);
+
+        if (!$history) {
+            return response()->json(['success' => false, 'message' => 'Data tidak ditemukan!'], 404);
+        }
+
+        $request->validate([
+            'numberplate' => 'required|string|max:255'
+        ]);
+
+        $history->numberplate = strtoupper($request->numberplate);
+        $history->save();
+
+        return response()->json(['success' => true, 'message' => 'Data berhasil diperbarui!']);
     }
 
     /**
@@ -63,10 +76,21 @@ class HistoryController extends Controller
     public function destroy($id)
     {
         $history = History::findOrFail($id); // Mencari data, jika tidak ada akan error 404
-        $history->delete(); // Menghapus data
-    
-        return redirect()->route('dashboard.index')->with('success', 'Data berhasil dihapus!');
-        // History::where('id', $id)->delete();
-        // return redirect('dashboard')->with('success', 'Data berhasil di hapus!');
+
+        if (!$history) {
+            return redirect()->route('history.index')->with('error', 'Data tidak ditemukan!');
+        }
+
+        if ($history->image) {
+            $imagePath = public_path($history->image); // Menggunakan public_path untuk mendapatkan lokasi di penyimpanan lokal
+            
+            // Hapus gambar jika file benar-benar ada
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+        }
+
+        $history->delete();
+        return redirect()->route('history.index')->with('success', 'Data berhasil dihapus!');
     }
 }

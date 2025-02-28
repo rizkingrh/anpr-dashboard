@@ -18,7 +18,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
 	return redirect('/dashboard');
 });
-Route::resource('dashboard', HistoryController::class);
+
+Route::get('/dashboard', [MainController::class, 'dashboard'])->name('dashboard');
+
+Route::resource('history', HistoryController::class);
 // Route::get('/dashboard', [HistoryController::class, 'index'])->name('dashboard');
 
 

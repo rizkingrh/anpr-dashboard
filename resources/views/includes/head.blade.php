@@ -9,4 +9,6 @@
 <link href="/assets/css/app.min.css" rel="stylesheet" />
 <!-- ================== END BASE CSS STYLE ================== -->
 
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
 @stack('css')
