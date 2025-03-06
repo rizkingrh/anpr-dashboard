@@ -7,5 +7,10 @@
 	<a href="javascript:;" class="dropdown-item">Calendar</a>
 	<a href="javascript:;" class="dropdown-item">Setting</a>
 	<div class="dropdown-divider"></div>
-	<a href="/login/v1" class="dropdown-item">Log Out</a>
+	<form action="/logout" method="POST">
+		@csrf
+		<button type="submit" class="dropdown-item">
+			Log Out
+		</button>
+	</form>
 </div>

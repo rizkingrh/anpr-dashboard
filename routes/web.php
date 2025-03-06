@@ -11,6 +11,7 @@
 |
 */
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\Route;
@@ -19,9 +20,13 @@ Route::get('/', function () {
 	return redirect('/dashboard');
 });
 
-Route::get('/dashboard', [MainController::class, 'dashboard'])->name('dashboard');
+Route::get('/dashboard', [MainController::class, 'dashboard'])->name('dashboard')->middleware('auth');
 
-Route::resource('history', HistoryController::class);
+Route::get('/login', [AuthController::class, 'index'])->name('login')->middleware('guest');;
+Route::post('/login', [AuthController::class, 'authenticate']);
+Route::post('/logout', [AuthController::class, 'logout']);
+
+Route::resource('history', HistoryController::class)->middleware('auth');
 // Route::get('/dashboard', [HistoryController::class, 'index'])->name('dashboard');
 
 
