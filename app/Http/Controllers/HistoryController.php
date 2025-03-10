@@ -13,8 +13,7 @@ class HistoryController extends Controller
     public function index()
     {
         $data = History::all();
-        $totalData = History::count();
-        return view('history', compact('data', 'totalData'));
+        return view('history', compact('data'));
     }
 
     /**
@@ -30,7 +29,27 @@ class HistoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = validator($request->all(), [
+            'numberplate' => 'required|string|max:12',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        if ($data->fails()) {
+            return response()->json(['error' => $data->errors()], 400);
+        }
+
+        // Simpan gambar ke storage
+        $image = $request->file('image');
+        $imageName = time() . '_' . $image->getClientOriginalName();
+        $image->move(public_path('numberplates'), $imageName);
+
+        // Simpan data ke database
+        History::create([
+            'numberplate' => $request->numberplate,
+            'image' => 'numberplates/'. $imageName,
+        ]);
+
+        return response()->json(['status' => 'success', 'message' => 'Data saved successfully'], 201);
     }
 
     /**
@@ -82,7 +101,7 @@ class HistoryController extends Controller
         }
 
         if ($history->image) {
-            $imagePath = public_path($history->image); // Menggunakan public_path untuk mendapatkan lokasi di penyimpanan lokal
+            $imagePath = public_path($history->image);
             
             // Hapus gambar jika file benar-benar ada
             if (file_exists($imagePath)) {

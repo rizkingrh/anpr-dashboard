@@ -5,9 +5,8 @@ use App\History;
 
 class MainController extends Controller {
     public function dashboard() {
-        $data = History::all();
         $totalData = History::count();
-        return view('dashboard', compact('data', 'totalData'));
+        return view('dashboard', compact('totalData'));
     }
     public function tespage() {
         return view('tespage');

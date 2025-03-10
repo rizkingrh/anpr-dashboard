@@ -197,10 +197,9 @@
                 <thead>
                     <tr>
                         <th width="1%">No</th>
-                        <th class="text-nowrap">Number Plates</th>
-                        <th class="text-nowrap">Plate Images</th>
-                        <th class="text-nowrap">Time</th>
-                        <th class="text-nowrap">Date</th>
+                        <th class="text-nowrap">Number Plate</th>
+                        <th class="text-nowrap">Plate Image</th>
+                        <th class="text-nowrap">Timestamp</th>
                         <th width="1%" data-orderable="false"></th>
                     </tr>
                 </thead>
@@ -219,10 +218,7 @@
                                 </a>
                             </td>
                             <td>
-                                {{ $item->time }}
-                            </td>
-                            <td>
-                                {{ $item->date }}
+                                {{ $item->created_at }}
                             </td>
                             <td width="1%">
                                 <div class="d-flex gap-2">
