@@ -20,7 +20,7 @@
 			const handleGritterNotification = (message) => {
 				if (message) {
 					$.gritter.add({
-						title: 'Login error!',
+						title: 'Login gagal!',
 						text: message,
 						image: '../assets/img/error_icon.png',
 						sticky: false

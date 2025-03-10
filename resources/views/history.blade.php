@@ -68,47 +68,35 @@
 
     {{-- SweetAlert --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/assets/plugins/sweetalert/dist/sweetalert.min.js"></script>
     <script>
         function confirmDelete(id) {
-            Swal.fire({
-                title: "Apakah Anda yakin?",
-                text: "Data yang dihapus tidak dapat dikembalikan!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#d33",
-                cancelButtonColor: "#3085d6",
-                confirmButtonText: "Ya, hapus!",
-                cancelButtonText: "Batal"
+            swal({
+                title: 'Apakah kamu yakin?',
+                text: 'Data yang dihapus tidak bisa dikembalikan!',
+                icon: 'warning',
+                buttons: {
+                    cancel: {
+                        text: 'Batal',
+                        value: null,
+                        visible: true,
+                        className: 'btn btn-default',
+                        closeModal: true,
+                    },
+                    confirm: {
+                        text: 'Hapus',
+                        value: true,
+                        visible: true,
+                        className: 'btn btn-danger',
+                        closeModal: true,
+                    }
+                }
             }).then((result) => {
-                if (result.isConfirmed) {
+                if (result) {
                     document.getElementById('delete-form-' + id).submit();
                 }
             });
         }
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            @if (session('success'))
-                Swal.fire({
-                    title: "Berhasil!",
-                    text: "{{ session('success') }}",
-                    icon: "success",
-                    timer: 3000,
-                    showConfirmButton: true
-                });
-            @endif
-
-            @if (session('error'))
-                Swal.fire({
-                    title: "Gagal!",
-                    text: "{{ session('error') }}",
-                    icon: "error",
-                    timer: 3000,
-                    showConfirmButton: true
-                });
-            @endif
-        });
     </script>
 
     <script>
@@ -118,7 +106,7 @@
                 input: "text",
                 inputValue: oldNumberPlate,
                 showCancelButton: true,
-                confirmButtonText: "Simpan",    
+                confirmButtonText: "Simpan",
                 cancelButtonText: "Batal",
                 icon: "info",
                 allowOutsideClick: false,
