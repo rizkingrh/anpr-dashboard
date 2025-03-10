@@ -1,12 +1,8 @@
 @extends('layouts.default')
 
-@section('title', 'Dashboard')
+@section('title', 'History')
 
 @push('css')
-    <link href="/assets/plugins/jvectormap-next/jquery-jvectormap.css" rel="stylesheet" />
-    <link href="/assets/plugins/nvd3/build/nv.d3.css" rel="stylesheet" />
-    <link href="/assets/plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet" />
-
     {{-- datatables --}}
     <link href="/assets/plugins/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
     <link href="/assets/plugins/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css" rel="stylesheet" />
@@ -68,31 +64,19 @@
 
     {{-- SweetAlert --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="/assets/plugins/sweetalert/dist/sweetalert.min.js"></script>
     <script>
         function confirmDelete(id) {
-            swal({
-                title: 'Apakah kamu yakin?',
-                text: 'Data yang dihapus tidak bisa dikembalikan!',
-                icon: 'warning',
-                buttons: {
-                    cancel: {
-                        text: 'Batal',
-                        value: null,
-                        visible: true,
-                        className: 'btn btn-default',
-                        closeModal: true,
-                    },
-                    confirm: {
-                        text: 'Hapus',
-                        value: true,
-                        visible: true,
-                        className: 'btn btn-danger',
-                        closeModal: true,
-                    }
-                }
+            Swal.fire({
+                title: "Apakah Anda yakin?",
+                text: "Data yang dihapus tidak dapat dikembalikan!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Ya, hapus!",
+                cancelButtonText: "Batal"
             }).then((result) => {
-                if (result) {
+                if (result.isConfirmed) {
                     document.getElementById('delete-form-' + id).submit();
                 }
             });
@@ -108,9 +92,11 @@
                 showCancelButton: true,
                 confirmButtonText: "Simpan",
                 cancelButtonText: "Batal",
+                confirmButtonColor: "#008000",
+                cancelButtonColor: "#3085d6",
                 icon: "info",
-                allowOutsideClick: false,
-                allowEscapeKey: false,
+                allowOutsideClick: true,
+                allowEscapeKey: true,
                 draggable: true,
                 preConfirm: (newNumberPlate) => {
                     if (!newNumberPlate) {
@@ -226,15 +212,17 @@
                                         onclick="editNumberPlate({{ $item->id }}, '{{ $item->numberplate }}')">
                                         <i class="fas fa-pen-to-square fa-sm"></i>
                                     </button>
-                                    <form id="delete-form-{{ $item->id }}"
-                                        action="{{ route('history.destroy', $item->id) }}" method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="button" class="btn btn-danger"
-                                            onclick="confirmDelete({{ $item->id }})">
-                                            <i class="fas fa-trash-can fa-sm"></i>
-                                        </button>
-                                    </form>
+                                    @can('admin')
+                                        <form id="delete-form-{{ $item->id }}"
+                                            action="{{ route('history.destroy', $item->id) }}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" class="btn btn-danger"
+                                                onclick="confirmDelete({{ $item->id }})">
+                                                <i class="fas fa-trash-can fa-sm"></i>
+                                            </button>
+                                        </form>
+                                    @endcan
                                 </div>
                             </td>
                         </tr>

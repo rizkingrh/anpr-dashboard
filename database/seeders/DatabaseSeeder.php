@@ -15,9 +15,9 @@ class DatabaseSeeder extends Seeder
         // $this->call(UsersTableSeeder::class);
 
         User::create([
-            'username' => 'admin',
-            'password' => bcrypt('admin'),
-            'role' => 'admin',
+            'username' => 'user',
+            'password' => bcrypt('user'),
+            'role' => 'user',
         ]);
     }
 }
