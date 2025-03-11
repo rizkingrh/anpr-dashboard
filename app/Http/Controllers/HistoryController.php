@@ -92,10 +92,8 @@ class HistoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(History $history)
     {
-        $history = History::findOrFail($id); // Mencari data, jika tidak ada akan error 404
-
         if (!$history) {
             return redirect()->route('history.index')->with('error', 'Data tidak ditemukan!');
         }

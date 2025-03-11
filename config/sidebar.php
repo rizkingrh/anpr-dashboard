@@ -16,12 +16,14 @@ return [
 		[
 			'icon' => 'fa fa-user-group',
 			'title' => 'User',
-			'url' => '/',
+			'url' => '/user',
+			'route-name' => 'user.index'
 		],
 		[
 			'icon' => 'fa fa-clock-rotate-left',
 			'title' => 'History',
 			'url' => '/history',
+			'route-name' => 'history.index'
 		],
 		[
 			'icon' => 'fa fa-user-lock',

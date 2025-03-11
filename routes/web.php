@@ -14,6 +14,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -27,6 +28,7 @@ Route::post('/login', [AuthController::class, 'authenticate']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::resource('history', HistoryController::class)->middleware('auth');
+Route::resource('user', UserController::class)->middleware(['auth', 'admin']);
 // Route::get('/dashboard', [HistoryController::class, 'index'])->name('dashboard');
 
 
