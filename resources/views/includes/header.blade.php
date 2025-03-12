@@ -16,7 +16,7 @@
 			<span class="icon-bar"></span>
 		</button>
 		@endif
-		<a href="/" class="navbar-brand">
+		<a wire:navigate href="/" class="navbar-brand">
 			<img src="{{ asset('assets/img/logo_ksp.png') }}" alt="Logo" style="height:45px;">
 		</a>
 		@if ($appHeaderMegaMenu && !$appSidebarTwo)

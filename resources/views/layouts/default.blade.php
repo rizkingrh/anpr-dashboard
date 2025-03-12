@@ -2,6 +2,7 @@
 <html lang="{{ app()->getLocale() }}">
 <head>
 	@include('includes.head')
+	@livewireStyles
 </head>
 @php
 	$bodyClass = (!empty($appBoxedLayout)) ? 'boxed-layout ' : '';
@@ -51,5 +52,6 @@
 	@yield('outside-content')
 	
 	@include('includes.page-js')
+	@livewireScripts
 </body>
 </html>
