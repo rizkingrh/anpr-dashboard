@@ -2,11 +2,30 @@
 
 @section('title', 'User')
 
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if ($errors->any())
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan...',
+                html: `{!! implode('<br>', $errors->all()) !!}`,
+                confirmButtonText: "Submit Ulang",
+                confirmButtonColor: "#3085d6"
+            });
+        </script>
+    @endif
+@endpush
+
 @section('content')
     <div class="panel panel-inverse">
         <!-- BEGIN panel-heading -->
         <div class="panel-heading">
-            <h4 class="panel-title">Tambah User
+            <h4 class="panel-title">User List
+                <span class="ms-2">
+                    <i class="fa fa-info-circle" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-title="User list"
+                        data-bs-placement="right" data-bs-content="Seluruh data user yang teregistrasi pada dashboard"></i>
+                </span>
             </h4>
             <div class="panel-heading-btn">
                 <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i
@@ -25,21 +44,27 @@
                 <fieldset>
                     <legend class="mb-3">Tambahkan User</legend>
                     <div class="row mb-3">
+                        <label class="form-label col-form-label col-md-3">Nama</label>
+                        <div class="col-md-9">
+                            <input type="text" name="name" class="form-control" placeholder="Enter nama user" required/>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
                         <label class="form-label col-form-label col-md-3">Username</label>
                         <div class="col-md-9">
-                            <input type="text" name="username" class="form-control" placeholder="Enter username" />
+                            <input type="text" name="username" class="form-control" placeholder="Enter username" required/>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <label class="form-label col-form-label col-md-3">Password</label>
                         <div class="col-md-9">
-                            <input type="password" name="password" class="form-control" placeholder="Enter password" />
+                            <input type="password" name="password" class="form-control" placeholder="Enter password" required/>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <label class="form-label col-form-label col-md-3">User Role</label>
                         <div class="col-md-9">
-                            <select class="form-select" name="role">
+                            <select class="form-select" name="role" required>
                                 <option selected="" disabled hidden>Pilih role</option>
                                 <option value="admin">Admin</option>
                                 <option value="user">User</option>

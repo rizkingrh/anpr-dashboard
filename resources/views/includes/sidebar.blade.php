@@ -12,15 +12,15 @@
 				<a href="javascript:;" class="menu-profile-link" data-toggle="app-sidebar-profile">
 					<div class="menu-profile-cover with-shadow"></div>
 					<div class="menu-profile-image">
-						<img src="{{ asset('assets/img/user/user-13.jpg') }}" alt="" />
+						<img src="{{ asset('assets/img/ks-icon.png') }}" alt="" />
 					</div>
 					<div class="menu-profile-info">
 						<div class="d-flex align-items-center">
 							<div class="flex-grow-1">
-								Sean Ngu
+								{{ auth()->user()->name }}
 							</div>
 						</div>
-						<small>Front end developer</small>
+						<small>{{ ucfirst(auth()->user()->role) }}</small>
 					</div>
 				</a>
 			</div>

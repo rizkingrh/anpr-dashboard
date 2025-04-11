@@ -32,11 +32,13 @@ class UserController extends Controller
     {
         $request->validate([
             'role' => 'required|string',
+            'name' => 'required|string',
             'username' => 'required|unique:users,username',
             'password' => 'required|string',
         ]);
 
         User::create([
+            'name' => $request->name,
             'username' => $request->username,
             'role' => $request->role,
             'password' => Hash::make($request->password),
@@ -74,7 +76,6 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        dd($user);
         $user->delete();
         return redirect()->route('user.index')->with('success', 'User berhasil dihapus!');
     }

@@ -54,24 +54,16 @@
 	@includeWhen($appHeaderMegaMenu, 'includes.component.header-mega-menu')
 	
 	<!-- BEGIN header-nav -->
-	<div class="navbar-nav">
-		<div class="navbar-item dropdown">
-			<a href="#" data-bs-toggle="dropdown" class="navbar-link dropdown-toggle icon">
-				<i class="fa fa-bell"></i>
-				<span class="badge">5</span>
-			</a>
-			@include('includes.component.header-dropdown-notification')
-		</div>
-		
+	<div class="navbar-nav">		
 		@isset($appHeaderLanguageBar)
 			@include('includes.component.header-language-bar')
 		@endisset
 		
 		<div class="navbar-item navbar-user dropdown">
 			<a href="#" class="navbar-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
-				<img src="/assets/img/user/user-13.jpg" alt="" /> 
+				<img src="/assets/img/ks-icon.png" alt="" /> 
 				<span>
-					<span class="d-none d-md-inline">Adam Schwartz</span>
+					<span class="d-none d-md-inline">{{ auth()->user()->name }}</span>
 					<b class="caret"></b>
 				</span>
 			</a>

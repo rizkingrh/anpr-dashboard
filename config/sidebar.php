@@ -14,6 +14,12 @@ return [
     */
 	'menu' => [
 		[
+			'icon' => 'fa fa-home',
+			'title' => 'Dashboard',
+			'url' => '/dashboard',
+			'route-name' => 'dashboard'
+		],
+		[
 			'icon' => 'fa fa-user-group',
 			'title' => 'User',
 			'url' => '/user',

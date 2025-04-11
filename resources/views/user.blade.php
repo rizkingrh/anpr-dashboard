@@ -77,67 +77,6 @@
             });
         }
     </script>
-
-    <script>
-        function editNumberPlate(id, oldNumberPlate) {
-            Swal.fire({
-                title: "Edit Number Plate",
-                input: "text",
-                inputValue: oldNumberPlate,
-                showCancelButton: true,
-                confirmButtonText: "Simpan",
-                cancelButtonText: "Batal",
-                confirmButtonColor: "#008000",
-                cancelButtonColor: "#3085d6",
-                icon: "info",
-                allowOutsideClick: true,
-                allowEscapeKey: true,
-                draggable: true,
-                preConfirm: (newNumberPlate) => {
-                    if (!newNumberPlate) {
-                        Swal.showValidationMessage("Nomor plat tidak boleh kosong!");
-                    }
-                    return newNumberPlate;
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    updateNumberPlate(id, result.value);
-                }
-            });
-        }
-
-        function updateNumberPlate(id, newNumberPlate) {
-            fetch(`/history/${id}`, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content")
-                    },
-                    body: JSON.stringify({
-                        numberplate: newNumberPlate
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        Swal.fire({
-                            title: "Berhasil!",
-                            text: "Nomor plat berhasil diperbarui.",
-                            icon: "success",
-                            timer: 3000,
-                            showConfirmButton: true
-                        }).then(() => {
-                            location.reload(); // Refresh halaman setelah update
-                        });
-                    } else {
-                        Swal.fire("Error!", "Gagal memperbarui nomor plat.", "error");
-                    }
-                })
-                .catch(() => {
-                    Swal.fire("Error!", "Terjadi kesalahan saat memperbarui data.", "error");
-                });
-        }
-    </script>
 @endpush
 
 @section('content')
@@ -177,6 +116,7 @@
                 <thead>
                     <tr>
                         <th width="1%">No</th>
+                        <th class="text-nowrap">Name</th>
                         <th class="text-nowrap">Username</th>
                         <th class="text-nowrap">Role</th>
                         @can('admin')
@@ -191,6 +131,9 @@
                                 {{ $loop->iteration }}
                             </td>
                             <td>
+                                {{ $item->name }}
+                            </td>
+                            <td>
                                 {{ $item->username }}
                             </td>
                             <td>
@@ -199,9 +142,6 @@
                             @can('admin')
                                 <td width="1%">
                                     <div class="d-flex gap-2">
-                                        <button type="button" class="btn btn-primary">
-                                            <i class="fas fa-pen-to-square fa-sm"></i>
-                                        </button>
                                         <form id="delete-form-{{ $item->id }}"
                                             action="{{ route('user.destroy', $item->id) }}" method="POST">
                                             @csrf
