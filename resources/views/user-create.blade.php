@@ -42,27 +42,28 @@
             <form action="{{ route('user.store') }}" method="POST">
                 @csrf
                 <fieldset>
-                    <legend class="mb-3">Tambahkan User</legend>
+                    <h5 class="mb-3 alert alert-muted">Tambahkan User</h5>
                     <div class="row mb-3">
-                        <label class="form-label col-form-label col-md-3">Nama</label>
+                        <label class="form-label col-form-label col-md-3">Nama <span class="text-red-500">*</span>:</label>
                         <div class="col-md-9">
                             <input type="text" name="name" class="form-control" placeholder="Enter nama user" required/>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="form-label col-form-label col-md-3">Username</label>
+                        <label class="form-label col-form-label col-md-3">Username <span class="text-red-500">*</span> :</label>
                         <div class="col-md-9">
                             <input type="text" name="username" class="form-control" placeholder="Enter username" required/>
+                            <small class="fs-12px text-gray-500-darker "><span class="text-red-500">Notes: </span>Username harus unik, tidak boleh sama dengan user lain!</small>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="form-label col-form-label col-md-3">Password</label>
+                        <label class="form-label col-form-label col-md-3">Password <span class="text-red-500">*</span> :</label>
                         <div class="col-md-9">
                             <input type="password" name="password" class="form-control" placeholder="Enter password" required/>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="form-label col-form-label col-md-3">User Role</label>
+                        <label class="form-label col-form-label col-md-3">User Role <span class="text-red-500">*</span> :</label>
                         <div class="col-md-9">
                             <select class="form-select" name="role" required>
                                 <option selected="" disabled hidden>Pilih role</option>
