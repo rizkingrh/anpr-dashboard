@@ -1,6 +1,6 @@
 @extends('layouts.default')
 
-@section('title', 'User')
+@section('title', 'Tenant')
 
 @push('css')
     {{-- datatables --}}
@@ -96,8 +96,9 @@
         <div class="panel-heading">
             <h4 class="panel-title">Tenant List
                 <span class="ms-2">
-                    <i class="fa fa-info-circle" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-title="Tenant List"
-                        data-bs-placement="right" data-bs-content="Seluruh data tenant yang teregistrasi pada dashboard"></i>
+                    <i class="fa fa-info-circle" data-bs-toggle="popover" data-bs-trigger="hover"
+                        data-bs-title="Tenant List" data-bs-placement="right"
+                        data-bs-content="Seluruh data tenant yang teregistrasi pada dashboard"></i>
                 </span>
             </h4>
             <div class="panel-heading-btn">
@@ -146,8 +147,9 @@
                             @can('admin')
                                 <td width="1%">
                                     <div class="d-flex gap-2">
+                                        <a href="{{ route('tenant.edit', $item->id) }}" class="btn btn-primary"><i class="fas fa-pen-to-square fa-sm"></i></a>
                                         <form id="delete-form-{{ $item->id }}"
-                                            action="{{ route('user.destroy', $item->id) }}" method="POST">
+                                            action="{{ route('tenant.destroy', $item->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="button" class="btn btn-danger"

@@ -45,15 +45,23 @@ class TenantController extends Controller
      */
     public function edit(Tenant $tenant)
     {
-        //
+        return view('tenant-edit', compact('tenant'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Tenant $tenant)
+    public function update(Request $request, $id)
     {
-        //
+        $data = $request->validate([
+            'vehicle_plate' => 'required|string',
+            'vehicle_type' => 'required|string',
+            'brand' => 'required|string',
+            'color' => 'required|string',
+        ]);
+
+        Tenant::where('id', $id)->update($data);
+        return redirect()->route('tenant.index')->with('success', 'Data berhasil diubah!');
     }
 
     /**
@@ -61,6 +69,7 @@ class TenantController extends Controller
      */
     public function destroy(Tenant $tenant)
     {
-        //
+        $tenant->delete();
+        return redirect()->route('tenant.index')->with('success', 'Data berhasil dihapus!');
     }
 }
