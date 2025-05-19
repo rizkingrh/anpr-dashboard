@@ -6,9 +6,22 @@ use Illuminate\Http\Request;
 
 class ShiftController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('shift');
+        if($request->bulan>0){
+            $bulan = $request->bulan;
+        } else {
+            $bulan = date('m');
+        }
+        if($request->tahun>0){
+            $tahun = $request->tahun;
+        } else {
+            $tahun = date('Y');
+        }
+        $nama = ['Ghifari', 'Rizki', 'Rama', 'Amel'];
+        $tglahir=tanggalAkhir($bulan,$tahun);
+        // return $tglahir;
+        return view('shift',compact('bulan','tahun','tglahir','nama'));
     }
 
     public function calculate(Request $request)

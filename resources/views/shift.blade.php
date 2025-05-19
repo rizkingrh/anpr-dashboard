@@ -29,41 +29,50 @@
 
 <body>
     <h2>REKAP SHIFT</h2>
-    <form method="POST" action="/shift">
-        @csrf
+    <form action="/shift" method="GET">
         <label for="bulan">Bulan:</label><br>
-        <input type="number" id="bulan" name="bulan" min="1" max="12" required><br>
+        <input type="number" id="bulan" name="bulan" min="1" max="12" value="{{ $bulan }}"
+            required><br>
         <label for="tahun">Tahun:</label><br>
-        <input type="number" id="tahun" name="tahun" required><br><br>
+        <input type="number" id="tahun" name="tahun" value="{{ $tahun }}" required><br><br>
         <input type="submit" value="Submit">
     </form>
 
-    @isset($jumlahHari)
-        <table>
+    <table>
+        <tr>
+            <th rowspan="2">Nama</th>
+            <th colspan="{{ $tglahir }}" class="header-top">Tabel Bulan {{ $bulan }}, Tahun
+                {{ $tahun }}</th>
+        </tr>
+        <tr>
+            @for ($i = 1; $i <= $tglahir; $i++)
+                <th>{{ $i }}</th>
+            @endfor
+        </tr>
+        @foreach ($nama as $item)
             <tr>
-                <th rowspan="2">Nama</th>
-                <th colspan="{{ $jumlahHari }}" class="header-top">Tabel Bulan {{ $bulan }}, Tahun {{ $tahun }}</th>
-            </tr>
-            <tr>
-                @for ($i = 1; $i <= $jumlahHari; $i++)
-                    <th>{{ $i }}</th>
+                <td>{{ $item }}</td>
+                @for ($i = 1; $i <= $tglahir; $i++)
+                    <td></td>
                 @endfor
             </tr>
-            @foreach ($nama as $item)
-                <tr>
-                    <td>{{ $item }}</td>
-                    @for ($i = 1; $i <= $jumlahHari; $i++)
-                        <td></td>
-                    @endfor
-                </tr>
-            @endforeach
+        @endforeach
 
-        </table>
+    </table>
 
-        <h3>Hasil:</h3>
-        <p>Jumlah hari di bulan {{ $bulan }} tahun {{ $tahun }} adalah: <strong>{{ $jumlahHari }}
-                hari</strong></p>
-    @endisset
+    <h3>Hasil:</h3>
+    <p>Jumlah hari di bulan {{ $bulan }} tahun {{ $tahun }} adalah: <strong>{{ $tglahir }}
+            hari</strong></p>
+
 </body>
+<script>
+    function cari_shift() {
+        var bulan = document.getElementById("bulan").value;
+        var tahun = document.getElementById("tahun").value;
+
+        // Redirect to the desired URL with the selected month and year
+        location.assign("{{ url('shift') }}?bulan=" + bulan + "&tahun=" + tahun);
+    }
+</script>
 
 </html>
