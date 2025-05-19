@@ -1,6 +1,6 @@
 @extends('layouts.default')
 
-@section('title', 'History')
+@section('title', 'User')
 
 @push('css')
     {{-- datatables --}}
@@ -19,6 +19,15 @@
 @endpush
 
 @push('scripts')
+    <script src="/assets/plugins/d3/d3.min.js"></script>
+    <script src="/assets/plugins/nvd3/build/nv.d3.js"></script>
+    <script src="/assets/plugins/jvectormap-next/jquery-jvectormap.min.js"></script>
+    <script src="/assets/plugins/jvectormap-content/world-mill.js"></script>
+    <script src="/assets/plugins/apexcharts/dist/apexcharts.min.js"></script>
+    <script src="/assets/plugins/moment/moment.js"></script>
+    <script src="/assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <script src="/assets/js/demo/dashboard-v3.js"></script>
+
     {{-- datatables --}}
     <script src="/assets/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="/assets/plugins/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
@@ -43,41 +52,52 @@
     <script src="/assets/plugins/pdfmake/build/pdfmake.min.js"></script>
     <script src="/assets/plugins/pdfmake/build/vfs_fonts.js"></script>
     <script src="/assets/plugins/jszip/dist/jszip.min.js"></script>
-    <script src="/assets/js/demo/table-manage-combine.demo.js"></script>
+
+    <script src="/assets/js/demo/table-manage-default.demo.js"></script>
     <script src="/assets/plugins/@highlightjs/cdn-assets/highlight.min.js"></script>
     <script src="/assets/js/demo/render.highlight.js"></script>
 
-    {{-- Image --}}
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false"></script>
-    <script src="/assets/plugins/superbox/jquery.superbox.min.js"></script>
-    <script src="/assets/plugins/lity/dist/lity.min.js"></script>
-    <script src="/assets/js/demo/profile.demo.js"></script>
-
     {{-- SweetAlert --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="/assets/js/main.js"></script>
+    <script>
+        function confirmDelete(id) {
+            Swal.fire({
+                title: "Apakah Anda yakin?",
+                text: "Data yang dihapus tidak dapat dikembalikan!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Ya, hapus!",
+                cancelButtonText: "Batal"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + id).submit();
+                }
+            });
+        }
+    </script>
 @endpush
 
 @section('content')
     <!-- BEGIN breadcrumb -->
     <ol class="breadcrumb float-xl-end">
         <li class="breadcrumb-item"><a href="{{ url('dashboard') }}">Dashboard</a></li>
-        <li class="breadcrumb-item active">History</li>
+        <li class="breadcrumb-item active">Tenant</li>
     </ol>
     <!-- END breadcrumb -->
     <!-- BEGIN page-header -->
-    <h1 class="page-header mb-3">History ANPR</h1>
+    <h1 class="page-header mb-3">Daftar Tenant</h1>
     <!-- END page-header -->
 
 
     <div class="panel panel-inverse">
         <!-- BEGIN panel-heading -->
         <div class="panel-heading">
-            <h4 class="panel-title">Plates History
+            <h4 class="panel-title">Tenant List
                 <span class="ms-2">
-                    <i class="fa fa-info-circle" data-bs-toggle="popover" data-bs-trigger="hover"
-                        data-bs-title="Plates history" data-bs-placement="right"
-                        data-bs-content="Seluruh data history hasil pembacaan plat nomor oleh CCTV"></i>
+                    <i class="fa fa-info-circle" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-title="Tenant List"
+                        data-bs-placement="right" data-bs-content="Seluruh data tenant yang teregistrasi pada dashboard"></i>
                 </span>
             </h4>
             <div class="panel-heading-btn">
@@ -92,14 +112,17 @@
         <!-- END panel-heading -->
         <!-- BEGIN panel-body -->
         <div class="panel-body">
-            <table id="data-table-combine" class="table table-striped table-bordered align-middle w-100 text-nowrap">
+            <table id="data-table-default" class="table table-striped table-bordered align-middle w-100 text-nowrap">
                 <thead>
                     <tr>
                         <th width="1%">No</th>
-                        <th class="text-nowrap">Number Plate</th>
-                        <th class="text-nowrap">Plate Image</th>
-                        <th class="text-nowrap">Timestamp</th>
-                        <th width="1%" data-orderable="false"></th>
+                        <th class="text-nowrap">Plate</th>
+                        <th class="text-nowrap">Type</th>
+                        <th class="text-nowrap">Brand</th>
+                        <th class="text-nowrap">Color</th>
+                        @can('admin')
+                            <th width="1%" data-orderable="false"></th>
+                        @endcan
                     </tr>
                 </thead>
                 <tbody>
@@ -109,25 +132,22 @@
                                 {{ $loop->iteration }}
                             </td>
                             <td>
-                                {{ $item->numberplate }}
+                                {{ $item->vehicle_plate }}
                             </td>
                             <td>
-                                <a href="{{ asset($item->image) }}" data-lity>
-                                    <img src="{{ asset($item->image) }}" alt="Plate Number" style="height:35px;">
-                                </a>
+                                {{ $item->vehicle_type }}
                             </td>
                             <td>
-                                {{ $item->created_at }}
+                                {{ $item->brand }}
                             </td>
-                            <td width="1%">
-                                <div class="d-flex gap-2">
-                                    <button type="button" class="btn btn-primary"
-                                        onclick="editNumberPlate({{ $item->id }}, '{{ $item->numberplate }}')">
-                                        <i class="fas fa-pen-to-square fa-sm"></i>
-                                    </button>
-                                    @can('admin')
+                            <td>
+                                {{ $item->color }}
+                            </td>
+                            @can('admin')
+                                <td width="1%">
+                                    <div class="d-flex gap-2">
                                         <form id="delete-form-{{ $item->id }}"
-                                            action="{{ route('history.destroy', $item->id) }}" method="post">
+                                            action="{{ route('user.destroy', $item->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="button" class="btn btn-danger"
@@ -135,9 +155,9 @@
                                                 <i class="fas fa-trash-can fa-sm"></i>
                                             </button>
                                         </form>
-                                    @endcan
-                                </div>
-                            </td>
+                                    </div>
+                                </td>
+                            @endcan
                         </tr>
                     @endforeach
                 </tbody>
@@ -145,4 +165,9 @@
         </div>
         <!-- END panel-body -->
     </div>
+    {{-- <div class="d-flex justify-content-end">
+        <a href="{{ route('user.create') }}" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i>Tambah User
+        </a>
+    </div> --}}
 @endsection

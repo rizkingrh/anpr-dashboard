@@ -21,7 +21,7 @@
     <link href="/assets/plugins/superbox/superbox.min.css" rel="stylesheet" />
     <link href="/assets/plugins/lity/dist/lity.min.css" rel="stylesheet" />
 
-	<link href="/assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
+    <link href="/assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
 @endpush
 
 @push('scripts')
@@ -62,33 +62,31 @@
     <script src="/assets/plugins/@highlightjs/cdn-assets/highlight.min.js"></script>
     <script src="/assets/js/demo/render.highlight.js"></script>
 
-	<script src="/assets/plugins/gritter/js/jquery.gritter.js"></script>
-	<script>
-		(() => {
-			"use strict";
-		
-			const handleGritterNotification = (message) => {
-				if (message) {
-					$.gritter.add({
-						title: 'Login berhasil!',
-						text: message,
-						image: '../assets/img/success_icon.png', // Ganti dengan foto profil user jika ada
-						sticky: false,
-						time: 4000 // Notifikasi muncul selama 4 detik
-					});
-				}
-			};
-		
-			document.addEventListener('DOMContentLoaded', () => {
-				// Ambil pesan sukses dari session Laravel
-				const successMessage = "{{ session('success') }}".trim();
-				
-				if (successMessage) {
-					handleGritterNotification(successMessage);
-				}
-			});
-		})();
-	</script>
+    <script src="/assets/plugins/gritter/js/jquery.gritter.js"></script>
+    <script>
+        (() => {
+            "use strict";
+
+            const handleGritterNotification = (message) => {
+                if (message) {
+                    $.gritter.add({
+                        title: 'Login berhasil!',
+                        text: message,
+                        image: '../assets/img/success_icon.png',
+                        sticky: false,
+                        time: 4000
+                    });
+                }
+            };
+
+            document.addEventListener('DOMContentLoaded', () => {
+                const successMessage = "{{ session('success') }}".trim();
+                if (successMessage) {
+                    handleGritterNotification(successMessage);
+                }
+            });
+        })();
+    </script>
 @endpush
 
 @section('content')
@@ -117,11 +115,11 @@
             <div class="widget widget-stats bg-info">
                 <div class="stats-icon"><i class="fa fa-link"></i></div>
                 <div class="stats-info">
-                    <h4>BOUNCE RATE</h4>
-                    <p>20%</p>
+                    <h4>TOTAL TENANT</h4>
+                    <p>{{ $totalTenant }}</p>
                 </div>
                 <div class="stats-link">
-                    <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+                    <a href="{{ url('tenant') }}">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
                 </div>
             </div>
         </div>
@@ -131,7 +129,7 @@
             <div class="widget widget-stats bg-orange">
                 <div class="stats-icon"><i class="fa fa-users"></i></div>
                 <div class="stats-info">
-                    <h4>UNIQUE VISITORS</h4>
+                    <h4>TENANT DETECT</h4>
                     <p>1,291,922</p>
                 </div>
                 <div class="stats-link">
@@ -154,6 +152,59 @@
             </div>
         </div>
         <!-- END col-3 -->
+    </div>
+    <!-- END row -->
+
+    <!-- BEGIN row -->
+    <div class="row">
+        <!-- BEGIN col-6 -->
+        <div class="col-xl-6">
+            <div class="panel panel-inverse">
+                <!-- BEGIN panel-heading -->
+                <div class="panel-heading">
+                    <h4 class="panel-title">Live Camera</h4>
+                    <div class="panel-heading-btn">
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i
+                                class="fa fa-expand"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i
+                                class="fa fa-redo"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i
+                                class="fa fa-minus"></i></a>
+                    </div>
+                </div>
+                <!-- END panel-heading -->
+                <!-- BEGIN panel-body -->
+                <div class="panel-body">
+                    <h1>RTSP GATE 1</h1>
+                </div>
+                <!-- END panel-body -->
+            </div>
+        </div>
+        <!-- END col-6 -->
+        <!-- BEGIN col-6 -->
+        <div class="col-xl-6">
+            <div class="panel panel-inverse">
+                <!-- BEGIN panel-heading -->
+                <div class="panel-heading">
+                    <h4 class="panel-title">Live Camera</h4>
+                    <div class="panel-heading-btn">
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i
+                                class="fa fa-expand"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i
+                                class="fa fa-redo"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i
+                                class="fa fa-minus"></i></a>
+                    </div>
+                </div>
+                <!-- END panel-heading -->
+                <!-- BEGIN panel-body -->
+                <div class="panel-body">
+                    <h1>RTSP GATE 2</h1>
+                </div>
+                <!-- END panel-body -->
+            </div>
+        </div>
+        <!-- END col-6 -->
     </div>
     <!-- END row -->
 
@@ -189,7 +240,8 @@
                             <!-- END total-sales -->
                             <!-- BEGIN percentage -->
                             <div class="mb-3 text-gray-500">
-                                <i class="fa fa-caret-up"></i> <span data-animation="number" data-value="33.21">0.00</span>%
+                                <i class="fa fa-caret-up"></i> <span data-animation="number"
+                                    data-value="33.21">0.00</span>%
                                 compare to last week
                             </div>
                             <!-- END percentage -->
@@ -403,15 +455,11 @@
     <!-- BEGIN row -->
     <div class="row">
         <!-- BEGIN col-8 -->
-        <div class="col-xl-8 col-lg-6">
+        <div class="col-xl-12 col-lg-6">
             <!-- BEGIN card -->
             <div class="card border-0 mb-3 bg-gray-800 text-white">
                 <div class="card-body">
-                    <div class="mb-3 text-gray-500 "><b>VISITORS ANALYTICS</b> <span class="ms-2"><i
-                                class="fa fa-info-circle" data-bs-toggle="popover" data-bs-trigger="hover"
-                                data-bs-title="Top products with units sold" data-bs-placement="top"
-                                data-bs-content="Products with the most individual units sold. Includes orders from all sales channels."
-                                data-original-title="" title=""></i></span></div>
+                    <div class="mb-3 text-gray-500 "><b>VISITORS ANALYTICS</b></div>
                     <div class="row">
                         <div class="col-xl-3 col-4">
                             <h3 class="mb-1"><span data-animation="number" data-value="127.1">0</span>K</h3>
@@ -423,7 +471,7 @@
                             <h3 class="mb-1"><span data-animation="number" data-value="179.9">0</span>K</h3>
                             <div>Returning Visitors</div>
                             <div class="text-gray-500 small text-truncate"><i class="fa fa-caret-up"></i> <span
-                                    data-animation="number" data-value="5.33">0.00</span>% from previous 7 days</div>
+                                    data-animation="number" data-value="4">0.00</span>% from previous 7 days</div>
                         </div>
                         <div class="col-xl-3 col-4">
                             <h3 class="mb-1"><span data-animation="number" data-value="766.8">0</span>K</h3>
@@ -443,70 +491,6 @@
             <!-- END card -->
         </div>
         <!-- END col-8 -->
-        <!-- BEGIN col-4 -->
-        <div class="col-xl-4 col-lg-6">
-            <!-- BEGIN card -->
-            <div class="card border-0 mb-3 bg-gray-800 text-white">
-                <div class="card-body">
-                    <div class="mb-2 text-gray-500">
-                        <b>SESSION BY LOCATION</b>
-                        <span class="ms-2"><i class="fa fa-info-circle" data-bs-toggle="popover"
-                                data-bs-trigger="hover" data-bs-title="Total sales" data-bs-placement="top"
-                                data-bs-content="Net sales (gross sales minus discounts and returns) plus taxes and shipping. Includes orders from all sales channels."></i></span>
-                    </div>
-                    <div id="visitors-map" class="mb-2" style="height: 200px"></div>
-                    <div>
-                        <div class="d-flex align-items-center text-white mb-2">
-                            <div class="widget-img widget-img-xs rounded bg-dark me-2 w-40px"
-                                style="background-image: url(../assets/img/flag/us.jpg)"></div>
-                            <div class="d-flex w-100">
-                                <div>United States</div>
-                                <div class="ms-auto text-gray-500"><span data-animation="number"
-                                        data-value="39.85">0.00</span>%</div>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center text-white mb-2">
-                            <div class="widget-img widget-img-xs rounded bg-dark me-2 w-40px"
-                                style="background-image: url(../assets/img/flag/cn.jpg)"></div>
-                            <div class="d-flex w-100">
-                                <div>China</div>
-                                <div class="ms-auto text-gray-500"><span data-animation="number"
-                                        data-value="14.23">0.00</span>%</div>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center text-white mb-2">
-                            <div class="widget-img widget-img-xs rounded bg-dark me-2 w-40px"
-                                style="background-image: url(../assets/img/flag/de.jpg)"></div>
-                            <div class="d-flex w-100">
-                                <div>Germany</div>
-                                <div class="ms-auto text-gray-500"><span data-animation="number"
-                                        data-value="12.83">0.00</span>%</div>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center text-white mb-2">
-                            <div class="widget-img widget-img-xs rounded bg-dark me-2 w-40px"
-                                style="background-image: url(../assets/img/flag/fr.jpg)"></div>
-                            <div class="d-flex w-100">
-                                <div>France</div>
-                                <div class="ms-auto text-gray-500"><span data-animation="number"
-                                        data-value="11.14">0.00</span>%</div>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center text-white mb-0">
-                            <div class="widget-img widget-img-xs rounded bg-dark me-2 w-40px"
-                                style="background-image: url(../assets/img/flag/jp.jpg)"></div>
-                            <div class="d-flex w-100">
-                                <div>Japan</div>
-                                <div class="ms-auto text-gray-500"><span data-animation="number"
-                                        data-value="10.75">0.00</span>%</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- END card -->
-        </div>
-        <!-- END col-4 -->
     </div>
     <!-- END row -->
     <!-- BEGIN row -->

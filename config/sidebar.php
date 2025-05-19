@@ -34,7 +34,8 @@ return [
 		[
 			'icon' => 'fa fa-user-lock',
 			'title' => 'Tenants',
-			'url' => '/',
+			'url' => '/tenant',
+			'route-name' => 'tenant.index'
 		]
 	]
 ];

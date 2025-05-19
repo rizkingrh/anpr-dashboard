@@ -2,11 +2,13 @@
 namespace App\Http\Controllers;
 
 use App\History;
+use App\Tenant;
 
 class MainController extends Controller {
     public function dashboard() {
         $totalData = History::count();
-        return view('dashboard', compact('totalData'));
+        $totalTenant = Tenant::count();
+        return view('dashboard', compact('totalData', 'totalTenant'));
     }
     public function tespage() {
         return view('tespage');

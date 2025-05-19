@@ -14,12 +14,18 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\ShiftController;
+use App\Http\Controllers\TenantController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
 	return redirect('/dashboard');
 });
+
+Route::get('/shift', [ShiftController::class, 'index']);
+Route::post('/shift', [ShiftController::class, 'calculate']);
+
 
 Route::get('/dashboard', [MainController::class, 'dashboard'])->name('dashboard')->middleware('auth');
 
@@ -29,6 +35,7 @@ Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::resource('history', HistoryController::class)->middleware('auth');
 Route::resource('user', UserController::class)->middleware(['auth', 'admin']);
+Route::resource('tenant', TenantController::class)->middleware(['auth', 'admin']);
 // Route::get('/dashboard', [HistoryController::class, 'index'])->name('dashboard');
 
 
