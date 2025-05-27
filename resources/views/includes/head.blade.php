@@ -4,8 +4,8 @@
 <meta content="" name="author" />
 
 <!-- ================== BEGIN BASE CSS STYLE ================== -->
-<link href="/assets/css/vendor.min.css" rel="stylesheet" />
-<link href="/assets/css/app.min.css" rel="stylesheet" />
+<link href="{{ asset('assets/css/vendor.min.css') }}" rel="stylesheet" />
+<link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet" />
 <!-- ================== END BASE CSS STYLE ================== -->
 
 <title>ANPR | @yield('title')</title>

@@ -112,8 +112,9 @@
                                 {{ $item->numberplate }}
                             </td>
                             <td>
-                                <a href="{{ asset($item->image) }}" data-lity>
-                                    <img src="{{ asset($item->image) }}" alt="Plate Number" style="height:35px;">
+                                <a href="data:image/jpeg;base64,{{ $item->image }}" data-lity>
+                                    {{-- <img src="{{ asset($item->image) }}" alt="Plate Number" style="height:35px;"> --}}
+                                    <img src="data:image/jpeg;base64,{{ $item->image }}" alt="Plate Number" style="height:35px;">
                                 </a>
                             </td>
                             <td>

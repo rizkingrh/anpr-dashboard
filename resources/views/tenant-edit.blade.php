@@ -18,6 +18,16 @@
 @endpush
 
 @section('content')
+    <!-- BEGIN breadcrumb -->
+    <ol class="breadcrumb float-xl-end">
+        <li class="breadcrumb-item"><a href="{{ url('dashboard') }}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="{{ url('user') }}">User</a></li>
+        <li class="breadcrumb-item active">Edit Tenant</li>
+    </ol>
+    <!-- END breadcrumb -->
+    <!-- BEGIN page-header -->
+    <h1 class="page-header mb-3">Edit Tenant</h1>
+    <!-- END page-header -->
     <div class="panel panel-inverse">
         <!-- BEGIN panel-heading -->
         <div class="panel-heading">
@@ -43,29 +53,36 @@
                 @csrf
                 @method('PUT')
                 <fieldset>
-                    <h5 class="mb-3 alert alert-muted">Edit Tenant</h5>
                     <div class="row mb-3">
-                        <label class="form-label col-form-label col-md-3">Vehicle Plate <span class="text-red-500">*</span>:</label>
+                        <label class="form-label col-form-label col-md-3">Vehicle Plate <span
+                                class="text-red-500">*</span>:</label>
                         <div class="col-md-9">
-                            <input type="text" name="vehicle_plate" class="form-control" value="{{ $tenant->vehicle_plate }}" required/>
+                            <input type="text" name="vehicle_plate" class="form-control"
+                                value="{{ $tenant->vehicle_plate }}" required />
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="form-label col-form-label col-md-3">Vehicle Type <span class="text-red-500">*</span> :</label>
+                        <label class="form-label col-form-label col-md-3">Vehicle Type <span class="text-red-500">*</span>
+                            :</label>
                         <div class="col-md-9">
-                            <input type="text" name="vehicle_type" class="form-control" value="{{ $tenant->vehicle_type }}" required/>
+                            <input type="text" name="vehicle_type" class="form-control"
+                                value="{{ $tenant->vehicle_type }}" required />
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="form-label col-form-label col-md-3">Brand <span class="text-red-500">*</span> :</label>
+                        <label class="form-label col-form-label col-md-3">Brand <span class="text-red-500">*</span>
+                            :</label>
                         <div class="col-md-9">
-                            <input type="text" name="brand" class="form-control" value="{{ $tenant->brand }}" required/>
+                            <input type="text" name="brand" class="form-control" value="{{ $tenant->brand }}"
+                                required />
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="form-label col-form-label col-md-3">Color <span class="text-red-500">*</span> :</label>
+                        <label class="form-label col-form-label col-md-3">Color <span class="text-red-500">*</span>
+                            :</label>
                         <div class="col-md-9">
-                            <input type="text" name="color" class="form-control" value="{{ $tenant->color }}" required/>
+                            <input type="text" name="color" class="form-control" value="{{ $tenant->color }}"
+                                required />
                         </div>
                     </div>
                     <div class="row">

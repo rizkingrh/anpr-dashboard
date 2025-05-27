@@ -18,6 +18,16 @@
 @endpush
 
 @section('content')
+    <!-- BEGIN breadcrumb -->
+    <ol class="breadcrumb float-xl-end">
+        <li class="breadcrumb-item"><a href="{{ url('dashboard') }}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="{{ url('user') }}">User</a></li>
+        <li class="breadcrumb-item active">Tambah User</li>
+    </ol>
+    <!-- END breadcrumb -->
+    <!-- BEGIN page-header -->
+    <h1 class="page-header mb-3">Tambah User</h1>
+    <!-- END page-header -->
     <div class="panel panel-inverse">
         <!-- BEGIN panel-heading -->
         <div class="panel-heading">
@@ -42,28 +52,34 @@
             <form action="{{ route('user.store') }}" method="POST">
                 @csrf
                 <fieldset>
-                    <h5 class="mb-3 alert alert-muted">Tambahkan User</h5>
                     <div class="row mb-3">
                         <label class="form-label col-form-label col-md-3">Nama <span class="text-red-500">*</span>:</label>
                         <div class="col-md-9">
-                            <input type="text" name="name" class="form-control" placeholder="Enter nama user" required/>
+                            <input type="text" name="name" class="form-control" placeholder="Enter nama user"
+                                required />
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="form-label col-form-label col-md-3">Username <span class="text-red-500">*</span> :</label>
+                        <label class="form-label col-form-label col-md-3">Username <span class="text-red-500">*</span>
+                            :</label>
                         <div class="col-md-9">
-                            <input type="text" name="username" class="form-control" placeholder="Enter username" required/>
-                            <small class="fs-12px text-gray-500-darker "><span class="text-red-500">Notes: </span>Username harus unik, tidak boleh sama dengan user lain!</small>
+                            <input type="text" name="username" class="form-control" placeholder="Enter username"
+                                required />
+                            <small class="fs-12px text-gray-500-darker "><span class="text-red-500">Notes: </span>Username
+                                harus unik, tidak boleh sama dengan user lain!</small>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="form-label col-form-label col-md-3">Password <span class="text-red-500">*</span> :</label>
+                        <label class="form-label col-form-label col-md-3">Password <span class="text-red-500">*</span>
+                            :</label>
                         <div class="col-md-9">
-                            <input type="password" name="password" class="form-control" placeholder="Enter password" required/>
+                            <input type="password" name="password" class="form-control" placeholder="Enter password"
+                                required />
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="form-label col-form-label col-md-3">User Role <span class="text-red-500">*</span> :</label>
+                        <label class="form-label col-form-label col-md-3">User Role <span class="text-red-500">*</span>
+                            :</label>
                         <div class="col-md-9">
                             <select class="form-select" name="role" required>
                                 <option selected="" disabled hidden>Pilih role</option>

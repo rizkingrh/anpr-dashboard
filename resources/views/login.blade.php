@@ -8,11 +8,11 @@
 @section('title', 'Login Page')
 
 @push('css')
-	<link href="/assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
+	<link href="{{ asset('assets/plugins/gritter/css/jquery.gritter.css') }}" rel="stylesheet" />
 @endpush
 
 @push('scripts')
-	<script src="/assets/plugins/gritter/js/jquery.gritter.js"></script>
+	<script src="{{ asset('assets/plugins/gritter/js/jquery.gritter.js') }}"></script>
 
 	<script>
 		(() => {
@@ -62,7 +62,7 @@
 			<div class="login-body">
 				<!-- BEGIN login-content -->
 				<div class="login-content fs-13px">
-					<form action="/login" method="POST">
+					<form action="{{ url('login') }}" method="POST">
 						@csrf
 						<div class="form-floating mb-20px">
 							<input type="text" class="form-control fs-13px h-45px" id="username" name="username" placeholder="Username" required />
