@@ -98,6 +98,7 @@
                         <th width="1%">No</th>
                         <th class="text-nowrap">Number Plate</th>
                         <th class="text-nowrap">Plate Image</th>
+                        <th class="text-nowrap">Tenant</th>
                         <th class="text-nowrap">Timestamp</th>
                         <th width="1%" data-orderable="false"></th>
                     </tr>
@@ -116,6 +117,13 @@
                                     {{-- <img src="{{ asset($item->image) }}" alt="Plate Number" style="height:35px;"> --}}
                                     <img src="data:image/jpeg;base64,{{ $item->image }}" alt="Plate Number" style="height:35px;">
                                 </a>
+                            </td>
+                            <td>
+                                @if ($item->tenant == 'yes')
+                                    <span class="badge bg-success rounded-pill">Yes</span>
+                                @else
+                                    <span class="badge bg-danger rounded-pill">No</span>
+                                @endif
                             </td>
                             <td>
                                 {{ $item->created_at }}

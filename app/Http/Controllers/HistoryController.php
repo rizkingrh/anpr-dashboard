@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\History;
+use App\Tenant;
 use Illuminate\Http\Request;
 
 class HistoryController extends Controller
@@ -85,7 +86,10 @@ class HistoryController extends Controller
             'numberplate' => 'required|string|max:255'
         ]);
 
+        $tenant = Tenant::where('vehicle_plate', $request->numberplate)->first();
+        
         $history->numberplate = strtoupper($request->numberplate);
+        $history->tenant = $tenant ? 'yes' : 'no';
         $history->save();
 
         return response()->json(['success' => true, 'message' => 'Data berhasil diperbarui!']);
