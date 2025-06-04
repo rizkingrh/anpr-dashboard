@@ -3,89 +3,26 @@
 @section('title', 'Dashboard')
 
 @push('css')
-    <link href="/assets/plugins/jvectormap-next/jquery-jvectormap.css" rel="stylesheet" />
-    <link href="/assets/plugins/nvd3/build/nv.d3.css" rel="stylesheet" />
     <link href="/assets/plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet" />
-
-    {{-- datatables --}}
-    <link href="/assets/plugins/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
-    <link href="/assets/plugins/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css" rel="stylesheet" />
-    <link href="/assets/plugins/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css" rel="stylesheet" />
-    <link href="/assets/plugins/datatables.net-autofill-bs5/css/autoFill.bootstrap5.min.css" rel="stylesheet" />
-    <link href="/assets/plugins/datatables.net-colreorder-bs5/css/colReorder.bootstrap5.min.css" rel="stylesheet" />
-    <link href="/assets/plugins/datatables.net-keytable-bs5/css/keyTable.bootstrap5.min.css" rel="stylesheet" />
-    <link href="/assets/plugins/datatables.net-rowreorder-bs5/css/rowReorder.bootstrap5.min.css" rel="stylesheet" />
-    <link href="/assets/plugins/datatables.net-select-bs5/css/select.bootstrap5.min.css" rel="stylesheet" />
-
-    {{-- Image --}}
-    <link href="/assets/plugins/superbox/superbox.min.css" rel="stylesheet" />
-    <link href="/assets/plugins/lity/dist/lity.min.css" rel="stylesheet" />
-
     <link href="/assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" />
 @endpush
 
 @push('scripts')
-    <script src="/assets/plugins/d3/d3.min.js"></script>
-    <script src="/assets/plugins/nvd3/build/nv.d3.js"></script>
-    <script src="/assets/plugins/jvectormap-next/jquery-jvectormap.min.js"></script>
-    <script src="/assets/plugins/jvectormap-content/world-mill.js"></script>
     <script src="/assets/plugins/apexcharts/dist/apexcharts.min.js"></script>
     <script src="/assets/plugins/moment/moment.js"></script>
     <script src="/assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
-    <script src="/assets/js/demo/dashboard-v3.js"></script>
-
-    {{-- datatables --}}
-    <script src="/assets/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="/assets/plugins/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
-    <script src="/assets/plugins/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="/assets/plugins/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
-    <script src="/assets/plugins/datatables.net-autofill/js/dataTables.autoFill.min.js"></script>
-    <script src="/assets/plugins/datatables.net-autofill-bs5/js/autoFill.bootstrap5.min.js"></script>
-    <script src="/assets/plugins/datatables.net-colreorder/js/dataTables.colReorder.min.js"></script>
-    <script src="/assets/plugins/datatables.net-colreorder-bs5/js/colReorder.bootstrap5.min.js"></script>
-    <script src="/assets/plugins/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-    <script src="/assets/plugins/datatables.net-keytable-bs5/js/keyTable.bootstrap5.min.js"></script>
-    <script src="/assets/plugins/datatables.net-rowreorder/js/dataTables.rowReorder.min.js"></script>
-    <script src="/assets/plugins/datatables.net-rowreorder-bs5/js/rowReorder.bootstrap5.min.js"></script>
-    <script src="/assets/plugins/datatables.net-select/js/dataTables.select.min.js"></script>
-    <script src="/assets/plugins/datatables.net-select-bs5/js/select.bootstrap5.min.js"></script>
-    <script src="/assets/plugins/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="/assets/plugins/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
-    <script src="/assets/plugins/datatables.net-buttons/js/buttons.colVis.min.js"></script>
-    <script src="/assets/plugins/datatables.net-buttons/js/buttons.flash.min.js"></script>
-    <script src="/assets/plugins/datatables.net-buttons/js/buttons.html5.min.js"></script>
-    <script src="/assets/plugins/datatables.net-buttons/js/buttons.print.min.js"></script>
-    <script src="/assets/plugins/pdfmake/build/pdfmake.min.js"></script>
-    <script src="/assets/plugins/pdfmake/build/vfs_fonts.js"></script>
-    <script src="/assets/plugins/jszip/dist/jszip.min.js"></script>
-    <script src="/assets/js/demo/table-manage-combine.demo.js"></script>
-    <script src="/assets/plugins/@highlightjs/cdn-assets/highlight.min.js"></script>
-    <script src="/assets/js/demo/render.highlight.js"></script>
-
+    <script src="/assets/js/dashboard.js"></script>
     <script src="/assets/plugins/gritter/js/jquery.gritter.js"></script>
+
     <script>
-        (() => {
-            "use strict";
-
-            const handleGritterNotification = (message) => {
-                if (message) {
-                    $.gritter.add({
-                        title: 'Login berhasil!',
-                        text: message,
-                        image: '../assets/img/success_icon.png',
-                        sticky: false,
-                        time: 4000
-                    });
-                }
-            };
-
-            document.addEventListener('DOMContentLoaded', () => {
-                const successMessage = "{{ session('success') }}".trim();
-                if (successMessage) {
-                    handleGritterNotification(successMessage);
-                }
-            });
-        })();
+        // Pass server data to global variables
+        window.dashboardData = {
+            trendLabels: @json($trendLabels),
+            trendData: @json($trendData),
+            notifications: {
+                success: "{{ session('success') }}".trim() || null
+            }
+        };
     </script>
 @endpush
 
@@ -102,7 +39,7 @@
                 <div class="stats-icon"><i class="fa fa-desktop"></i></div>
                 <div class="stats-info">
                     <h4>TOTAL VISITORS</h4>
-                    <p>{{ $totalData }}</p>
+                    <p data-animation="number" data-value="{{ $totalData }}">0</p>
                 </div>
                 <div class="stats-link">
                     <a href="{{ url('history') }}">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
@@ -116,7 +53,7 @@
                 <div class="stats-icon"><i class="fa fa-link"></i></div>
                 <div class="stats-info">
                     <h4>TOTAL TENANT</h4>
-                    <p>{{ $totalTenant }}</p>
+                    <p data-animation="number" data-value="{{ $totalTenant }}">0</p>
                 </div>
                 <div class="stats-link">
                     <a href="{{ url('tenant') }}">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
@@ -130,7 +67,7 @@
                 <div class="stats-icon"><i class="fa fa-users"></i></div>
                 <div class="stats-info">
                     <h4>TENANT DETECT</h4>
-                    <p>{{ $tenantDetect }}</p>
+                    <p data-animation="number" data-value="{{ $tenantDetect }}">0</p>
                 </div>
                 <div class="stats-link">
                     <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
@@ -144,7 +81,7 @@
                 <div class="stats-icon"><i class="fa fa-clock"></i></div>
                 <div class="stats-info">
                     <h4>NON TENANT DETECT</h4>
-                    <p>{{ $nonTenantDetect }}</p>
+                    <p data-animation="number" data-value="{{ $nonTenantDetect }}">0</p>
                 </div>
                 <div class="stats-link">
                     <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
@@ -152,6 +89,47 @@
             </div>
         </div>
         <!-- END col-3 -->
+    </div>
+    <!-- END row -->
+
+    <!-- BEGIN row -->
+    <div class="row">
+        <!-- BEGIN daterange-filter -->
+        <div class="d-sm-flex align-items-center mb-3">
+            <div class="btn btn-dark me-2 text-truncate" id="daterange-filter">
+                <i class="fa fa-calendar fa-fw text-white text-opacity-50 ms-n1"></i>
+                <span>Value</span>
+                <b class="caret ms-1 opacity-5"></b>
+            </div>
+        </div>
+        <!-- END daterange-filter -->
+        <!-- BEGIN col-6 -->
+        <div class="col-xl">
+            <!-- BEGIN card -->
+            <div class="card border-0 mb-3 overflow-hidden">
+                <!-- BEGIN card-body -->
+                <div class="card-body">
+                    <!-- BEGIN row -->
+                    <div class="row">
+                        <!-- BEGIN title -->
+                        <div class="mb-3">
+                            <b>CHART KENDARAAN</b>
+                            <span class="ms-2">
+                                <i class="fa fa-info-circle" data-bs-toggle="popover" data-bs-trigger="hover"
+                                    data-bs-title="Total sales" data-bs-placement="top"
+                                    data-bs-content="Net sales (gross sales minus discounts and returns) plus taxes and shipping. Includes orders from all sales channels."></i>
+                            </span>
+                        </div>
+                        <!-- END title -->
+                        <div id="activityTrendChart"></div>
+                    </div>
+                    <!-- END row -->
+                </div>
+                <!-- END card-body -->
+            </div>
+            <!-- END card -->
+        </div>
+        <!-- END col-6 -->
     </div>
     <!-- END row -->
 
@@ -208,254 +186,7 @@
     </div>
     <!-- END row -->
 
-
-
-
     {{-- <!-- BEGIN row -->
-    <div class="row">
-        <!-- BEGIN col-6 -->
-        <div class="col-xl-6">
-            <!-- BEGIN card -->
-            <div class="card border-0 mb-3 overflow-hidden bg-gray-800 text-white">
-                <!-- BEGIN card-body -->
-                <div class="card-body">
-                    <!-- BEGIN row -->
-                    <div class="row">
-                        <!-- BEGIN col-7 -->
-                        <div class="col-xl-7 col-lg-8">
-                            <!-- BEGIN title -->
-                            <div class="mb-3 text-gray-500">
-                                <b>TOTAL SALES</b>
-                                <span class="ms-2">
-                                    <i class="fa fa-info-circle" data-bs-toggle="popover" data-bs-trigger="hover"
-                                        data-bs-title="Total sales" data-bs-placement="top"
-                                        data-bs-content="Net sales (gross sales minus discounts and returns) plus taxes and shipping. Includes orders from all sales channels."></i>
-                                </span>
-                            </div>
-                            <!-- END title -->
-                            <!-- BEGIN total-sales -->
-                            <div class="d-flex mb-1">
-                                <h2 class="mb-0">$<span data-animation="number" data-value="64559.25">0.00</span></h2>
-                                <div class="ms-auto mt-n1 mb-n1">
-                                    <div id="total-sales-sparkline"></div>
-                                </div>
-                            </div>
-                            <!-- END total-sales -->
-                            <!-- BEGIN percentage -->
-                            <div class="mb-3 text-gray-500">
-                                <i class="fa fa-caret-up"></i> <span data-animation="number"
-                                    data-value="33.21">0.00</span>%
-                                compare to last week
-                            </div>
-                            <!-- END percentage -->
-                            <hr class="bg-white bg-opacity-50" />
-                            <!-- BEGIN row -->
-                            <div class="row text-truncate">
-                                <!-- BEGIN col-6 -->
-                                <div class="col-6">
-                                    <div class=" text-gray-500">Total sales order</div>
-                                    <div class="fs-18px mb-5px fw-bold" data-animation="number" data-value="1568">0</div>
-                                    <div class="progress h-5px rounded-3 bg-gray-900 mb-5px">
-                                        <div class="progress-bar progress-bar-striped rounded-right bg-teal"
-                                            data-animation="width" data-value="55%" style="width: 0%"></div>
-                                    </div>
-                                </div>
-                                <!-- END col-6 -->
-                                <!-- BEGIN col-6 -->
-                                <div class="col-6">
-                                    <div class=" text-gray-500">Avg. sales per order</div>
-                                    <div class="fs-18px mb-5px fw-bold">$<span data-animation="number"
-                                            data-value="41.20">0.00</span></div>
-                                    <div class="progress h-5px rounded-3 bg-gray-900 mb-5px">
-                                        <div class="progress-bar progress-bar-striped rounded-right"
-                                            data-animation="width" data-value="55%" style="width: 0%"></div>
-                                    </div>
-                                </div>
-                                <!-- END col-6 -->
-                            </div>
-                            <!-- END row -->
-                        </div>
-                        <!-- END col-7 -->
-                        <!-- BEGIN col-5 -->
-                        <div class="col-xl-5 col-lg-4 align-items-center d-flex justify-content-center">
-                            <img src="../assets/img/svg/img-1.svg" height="150px" class="d-none d-lg-block" />
-                        </div>
-                        <!-- END col-5 -->
-                    </div>
-                    <!-- END row -->
-                </div>
-                <!-- END card-body -->
-            </div>
-            <!-- END card -->
-        </div>
-        <!-- END col-6 -->
-        <!-- BEGIN col-6 -->
-        <div class="col-xl-6">
-            <!-- BEGIN row -->
-            <div class="row">
-                <!-- BEGIN col-6 -->
-                <div class="col-sm-6">
-                    <!-- BEGIN card -->
-                    <div class="card border-0 text-truncate mb-3 bg-gray-800 text-white">
-                        <!-- BEGIN card-body -->
-                        <div class="card-body">
-                            <!-- BEGIN title -->
-                            <div class="mb-3 text-gray-500">
-                                <b class="mb-3">CONVERSION RATE</b>
-                                <span class="ms-2"><i class="fa fa-info-circle" data-bs-toggle="popover"
-                                        data-bs-trigger="hover" data-bs-title="Conversion Rate" data-bs-placement="top"
-                                        data-bs-content="Percentage of sessions that resulted in orders from total number of sessions."
-                                        data-original-title="" title=""></i></span>
-                            </div>
-                            <!-- END title -->
-                            <!-- BEGIN conversion-rate -->
-                            <div class="d-flex align-items-center mb-1">
-                                <h2 class="text-white mb-0"><span data-animation="number" data-value="2.19">0.00</span>%
-                                </h2>
-                                <div class="ms-auto">
-                                    <div id="conversion-rate-sparkline"></div>
-                                </div>
-                            </div>
-                            <!-- END conversion-rate -->
-                            <!-- BEGIN percentage -->
-                            <div class="mb-4 text-gray-500 ">
-                                <i class="fa fa-caret-down"></i> <span data-animation="number"
-                                    data-value="0.50">0.00</span>% compare to last week
-                            </div>
-                            <!-- END percentage -->
-                            <!-- BEGIN info-row -->
-                            <div class="d-flex mb-2">
-                                <div class="d-flex align-items-center">
-                                    <i class="fa fa-circle text-red fs-8px me-2"></i>
-                                    Added to cart
-                                </div>
-                                <div class="d-flex align-items-center ms-auto">
-                                    <div class="text-gray-500 small"><i class="fa fa-caret-up"></i> <span
-                                            data-animation="number" data-value="262">0</span>%</div>
-                                    <div class="w-50px text-end ps-2 fw-bold"><span data-animation="number"
-                                            data-value="3.79">0.00</span>%</div>
-                                </div>
-                            </div>
-                            <!-- END info-row -->
-                            <!-- BEGIN info-row -->
-                            <div class="d-flex mb-2">
-                                <div class="d-flex align-items-center">
-                                    <i class="fa fa-circle text-warning fs-8px me-2"></i>
-                                    Reached checkout
-                                </div>
-                                <div class="d-flex align-items-center ms-auto">
-                                    <div class="text-gray-500 small"><i class="fa fa-caret-up"></i> <span
-                                            data-animation="number" data-value="11">0</span>%</div>
-                                    <div class="w-50px text-end ps-2 fw-bold"><span data-animation="number"
-                                            data-value="3.85">0.00</span>%</div>
-                                </div>
-                            </div>
-                            <!-- END info-row -->
-                            <!-- BEGIN info-row -->
-                            <div class="d-flex">
-                                <div class="d-flex align-items-center">
-                                    <i class="fa fa-circle text-lime fs-8px me-2"></i>
-                                    Sessions converted
-                                </div>
-                                <div class="d-flex align-items-center ms-auto">
-                                    <div class="text-gray-500 small"><i class="fa fa-caret-up"></i> <span
-                                            data-animation="number" data-value="57">0</span>%</div>
-                                    <div class="w-50px text-end ps-2 fw-bold"><span data-animation="number"
-                                            data-value="2.19">0.00</span>%</div>
-                                </div>
-                            </div>
-                            <!-- END info-row -->
-                        </div>
-                        <!-- END card-body -->
-                    </div>
-                    <!-- END card -->
-                </div>
-                <!-- END col-6 -->
-                <!-- BEGIN col-6 -->
-                <div class="col-sm-6">
-                    <!-- BEGIN card -->
-                    <div class="card border-0 text-truncate mb-3 bg-gray-800 text-white">
-                        <!-- BEGIN card-body -->
-                        <div class="card-body">
-                            <!-- BEGIN title -->
-                            <div class="mb-3 text-gray-500">
-                                <b class="mb-3">STORE SESSIONS</b>
-                                <span class="ms-2"><i class="fa fa-info-circle" data-bs-toggle="popover"
-                                        data-bs-trigger="hover" data-bs-title="Store Sessions" data-bs-placement="top"
-                                        data-bs-content="Number of sessions on your online store. A session is a period of continuous activity from a visitor."
-                                        data-original-title="" title=""></i></span>
-                            </div>
-                            <!-- END title -->
-                            <!-- BEGIN store-session -->
-                            <div class="d-flex align-items-center mb-1">
-                                <h2 class="text-white mb-0"><span data-animation="number" data-value="70719">0</span>
-                                </h2>
-                                <div class="ms-auto">
-                                    <div id="store-session-sparkline"></div>
-                                </div>
-                            </div>
-                            <!-- END store-session -->
-                            <!-- BEGIN percentage -->
-                            <div class="mb-4 text-gray-500 ">
-                                <i class="fa fa-caret-up"></i> <span data-animation="number"
-                                    data-value="9.5">0.00</span>% compare to last week
-                            </div>
-                            <!-- END percentage -->
-                            <!-- BEGIN info-row -->
-                            <div class="d-flex mb-2">
-                                <div class="d-flex align-items-center">
-                                    <i class="fa fa-circle text-teal fs-8px me-2"></i>
-                                    Mobile
-                                </div>
-                                <div class="d-flex align-items-center ms-auto">
-                                    <div class="text-gray-500 small"><i class="fa fa-caret-up"></i> <span
-                                            data-animation="number" data-value="25.7">0.00</span>%</div>
-                                    <div class="w-50px text-end ps-2 fw-bold"><span data-animation="number"
-                                            data-value="53210">0</span></div>
-                                </div>
-                            </div>
-                            <!-- END info-row -->
-                            <!-- BEGIN info-row -->
-                            <div class="d-flex mb-2">
-                                <div class="d-flex align-items-center">
-                                    <i class="fa fa-circle text-blue fs-8px me-2"></i>
-                                    Desktop
-                                </div>
-                                <div class="d-flex align-items-center ms-auto">
-                                    <div class="text-gray-500 small"><i class="fa fa-caret-up"></i> <span
-                                            data-animation="number" data-value="16.0">0.00</span>%</div>
-                                    <div class="w-50px text-end ps-2 fw-bold"><span data-animation="number"
-                                            data-value="11959">0</span></div>
-                                </div>
-                            </div>
-                            <!-- END info-row -->
-                            <!-- BEGIN info-row -->
-                            <div class="d-flex">
-                                <div class="d-flex align-items-center">
-                                    <i class="fa fa-circle text-cyan fs-8px me-2"></i>
-                                    Tablet
-                                </div>
-                                <div class="d-flex align-items-center ms-auto">
-                                    <div class="text-gray-500 small"><i class="fa fa-caret-up"></i> <span
-                                            data-animation="number" data-value="7.9">0.00</span>%</div>
-                                    <div class="w-50px text-end ps-2 fw-bold"><span data-animation="number"
-                                            data-value="5545">0</span></div>
-                                </div>
-                            </div>
-                            <!-- END info-row -->
-                        </div>
-                        <!-- END card-body -->
-                    </div>
-                    <!-- END card -->
-                </div>
-                <!-- END col-6 -->
-            </div>
-            <!-- END row -->
-        </div>
-        <!-- END col-6 -->
-    </div>
-    <!-- END row -->
-    <!-- BEGIN row -->
     <div class="row">
         <!-- BEGIN col-8 -->
         <div class="col-xl-12 col-lg-6">
@@ -787,5 +518,4 @@
         <!-- END col-4 -->
     </div>
     <!-- END row --> --}}
-
 @endsection

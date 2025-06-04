@@ -5,13 +5,6 @@ use App\History;
 use App\Tenant;
 
 class MainController extends Controller {
-    public function dashboard() {
-        $totalData = History::count();
-        $totalTenant = Tenant::count();
-        $tenantDetect = History::where('tenant', 'yes')->count();
-        $nonTenantDetect = History::where('tenant', 'no')->count();
-        return view('dashboard', compact('totalData', 'totalTenant', 'tenantDetect', 'nonTenantDetect'));
-    }
     public function tespage() {
         return view('tespage');
     }

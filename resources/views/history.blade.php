@@ -14,7 +14,6 @@
     <link href="/assets/plugins/datatables.net-select-bs5/css/select.bootstrap5.min.css" rel="stylesheet" />
 
     {{-- Image --}}
-    <link href="/assets/plugins/superbox/superbox.min.css" rel="stylesheet" />
     <link href="/assets/plugins/lity/dist/lity.min.css" rel="stylesheet" />
 @endpush
 
@@ -48,14 +47,11 @@
     <script src="/assets/js/demo/render.highlight.js"></script>
 
     {{-- Image --}}
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;sensor=false"></script>
-    <script src="/assets/plugins/superbox/jquery.superbox.min.js"></script>
     <script src="/assets/plugins/lity/dist/lity.min.js"></script>
-    <script src="/assets/js/demo/profile.demo.js"></script>
 
     {{-- SweetAlert --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/history.js"></script>
 @endpush
 
 @section('content')

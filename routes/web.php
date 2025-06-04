@@ -12,6 +12,7 @@
 */
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\ShiftController;
@@ -23,11 +24,12 @@ Route::get('/', function () {
 	return redirect('/dashboard');
 });
 
+// Tugas
 Route::get('/shift', [ShiftController::class, 'index']);
 Route::post('/shift', [ShiftController::class, 'calculate']);
 
-
-Route::get('/dashboard', [MainController::class, 'dashboard'])->name('dashboard')->middleware('auth');
+// Start routes 
+Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard')->middleware('auth');
 
 Route::get('/login', [AuthController::class, 'index'])->name('login')->middleware('guest');;
 Route::post('/login', [AuthController::class, 'authenticate']);
