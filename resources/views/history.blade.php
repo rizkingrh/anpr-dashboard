@@ -42,7 +42,8 @@
     <script src="/assets/plugins/pdfmake/build/pdfmake.min.js"></script>
     <script src="/assets/plugins/pdfmake/build/vfs_fonts.js"></script>
     <script src="/assets/plugins/jszip/dist/jszip.min.js"></script>
-    <script src="/assets/js/demo/table-manage-combine.demo.js"></script>
+
+    <script src="/assets/js/demo/table-manage-default.demo.js"></script>
     <script src="/assets/plugins/@highlightjs/cdn-assets/highlight.min.js"></script>
     <script src="/assets/js/demo/render.highlight.js"></script>
 
@@ -88,7 +89,7 @@
         <!-- END panel-heading -->
         <!-- BEGIN panel-body -->
         <div class="panel-body">
-            <table id="data-table-combine" class="table table-striped table-bordered align-middle w-100 text-nowrap">
+            <table id="data-table-default" class="table table-striped table-bordered align-middle w-100 text-nowrap">
                 <thead>
                     <tr>
                         <th width="1%">No</th>
