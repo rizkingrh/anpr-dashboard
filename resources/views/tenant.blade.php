@@ -12,22 +12,9 @@
     <link href="/assets/plugins/datatables.net-keytable-bs5/css/keyTable.bootstrap5.min.css" rel="stylesheet" />
     <link href="/assets/plugins/datatables.net-rowreorder-bs5/css/rowReorder.bootstrap5.min.css" rel="stylesheet" />
     <link href="/assets/plugins/datatables.net-select-bs5/css/select.bootstrap5.min.css" rel="stylesheet" />
-
-    {{-- Image --}}
-    <link href="/assets/plugins/superbox/superbox.min.css" rel="stylesheet" />
-    <link href="/assets/plugins/lity/dist/lity.min.css" rel="stylesheet" />
 @endpush
 
 @push('scripts')
-    <script src="/assets/plugins/d3/d3.min.js"></script>
-    <script src="/assets/plugins/nvd3/build/nv.d3.js"></script>
-    <script src="/assets/plugins/jvectormap-next/jquery-jvectormap.min.js"></script>
-    <script src="/assets/plugins/jvectormap-content/world-mill.js"></script>
-    <script src="/assets/plugins/apexcharts/dist/apexcharts.min.js"></script>
-    <script src="/assets/plugins/moment/moment.js"></script>
-    <script src="/assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
-    <script src="/assets/js/demo/dashboard-v3.js"></script>
-
     {{-- datatables --}}
     <script src="/assets/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="/assets/plugins/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>

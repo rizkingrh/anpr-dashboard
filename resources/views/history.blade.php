@@ -95,7 +95,7 @@
                         <th width="1%">No</th>
                         <th class="text-nowrap">Number Plate</th>
                         <th class="text-nowrap">Plate Image</th>
-                        <th class="text-nowrap">Tenant</th>
+                        <th class="text-nowrap">Status</th>
                         <th class="text-nowrap">Timestamp</th>
                         <th width="1%" data-orderable="false"></th>
                     </tr>
@@ -117,9 +117,9 @@
                             </td>
                             <td>
                                 @if ($item->tenant == 'yes')
-                                    <span class="badge bg-success rounded-pill">Yes</span>
+                                    <span class="badge bg-success rounded-pill">Tenant</span>
                                 @else
-                                    <span class="badge bg-danger rounded-pill">No</span>
+                                    <span class="badge bg-danger rounded-pill">Non Tenant</span>
                                 @endif
                             </td>
                             <td>

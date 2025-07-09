@@ -134,7 +134,7 @@
     <!-- END row -->
 
     <!-- BEGIN row -->
-    <div class="row">
+    {{-- <div class="row">
         <!-- BEGIN col-6 -->
         <div class="col-xl-6">
             <div class="panel panel-inverse">
@@ -183,7 +183,7 @@
             </div>
         </div>
         <!-- END col-6 -->
-    </div>
+    </div> --}}
     <!-- END row -->
 
     {{-- <!-- BEGIN row -->
