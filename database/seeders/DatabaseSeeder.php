@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\User;
+use Database\Seeders\TenantSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,13 +13,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        $this->call([
+            TenantSeeder::class,
+        ]);
 
         User::create([
-            'name' => 'Rizki Nugraha',
+            'name' => 'Admin',
             'username' => 'admin',
             'password' => bcrypt('admin'),
             'role' => 'admin',
+        ]);
+
+        User::create([
+            'name' => 'User',
+            'username' => 'user',
+            'password' => bcrypt('user'),
+            'role' => 'user',
         ]);
     }
 }
