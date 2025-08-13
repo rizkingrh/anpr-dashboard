@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\History;
 use App\Tenant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class HistoryController extends Controller
 {
@@ -13,8 +14,94 @@ class HistoryController extends Controller
      */
     public function index()
     {
-        $data = History::orderBy('created_at', 'desc')->get();
-        return view('history', compact('data'));
+        return view('history');
+    }
+
+    /**
+     * DataTables server-side processing
+     */
+    public function datatables(Request $request)
+    {
+        if ($request->ajax()) {
+            $query = History::orderBy('created_at', 'desc');
+            
+            $totalRecords = $query->count();
+            
+            // Handle search
+            if ($request->has('search') && !empty($request->search['value'])) {
+                $searchValue = $request->search['value'];
+                $query->where(function($q) use ($searchValue) {
+                    $q->where('numberplate', 'like', "%{$searchValue}%")
+                      ->orWhere('tenant', 'like', "%{$searchValue}%");
+                });
+            }
+            
+            $totalFiltered = $query->count();
+            
+            // Handle ordering
+            if ($request->has('order')) {
+                $orderColumn = $request->order[0]['column'];
+                $orderDirection = $request->order[0]['dir'];
+                
+                $columns = ['id', 'numberplate', 'image', 'tenant', 'created_at', 'actions'];
+                if (isset($columns[$orderColumn]) && $columns[$orderColumn] !== 'image' && $columns[$orderColumn] !== 'actions') {
+                    $query->orderBy($columns[$orderColumn], $orderDirection);
+                }
+            }
+            
+            // Handle pagination
+            $start = $request->get('start', 0);
+            $length = $request->get('length', 10);
+            
+            $data = $query->skip($start)->take($length)->get();
+            
+            // Format data for DataTables
+            $formattedData = [];
+            foreach ($data as $index => $item) {
+                $editButton = '<button type="button" class="btn btn-primary" onclick="editNumberPlate(' . $item->id . ', \'' . $item->numberplate . '\')">
+                                <i class="fas fa-pen-to-square fa-sm"></i>
+                              </button>';
+                
+                $deleteButton = '';
+                if (Gate::allows('admin')) {
+                    $deleteButton = '<form id="delete-form-' . $item->id . '" action="' . route('history.destroy', $item->id) . '" method="post" style="display:inline;">
+                                      ' . csrf_field() . '
+                                      ' . method_field('DELETE') . '
+                                      <button type="button" class="btn btn-danger" onclick="confirmDelete(' . $item->id . ')">
+                                        <i class="fas fa-trash-can fa-sm"></i>
+                                      </button>
+                                    </form>';
+                }
+                
+                $actions = '<div class="d-flex gap-2">' . $editButton . $deleteButton . '</div>';
+                
+                $image = '<a href="data:image/jpeg;base64,' . $item->image . '" data-lity>
+                           <img src="data:image/jpeg;base64,' . $item->image . '" alt="Plate Number" style="height:35px;">
+                          </a>';
+                
+                $status = $item->tenant == 'yes' 
+                    ? '<span class="badge bg-success rounded-pill">Tenant</span>'
+                    : '<span class="badge bg-danger rounded-pill">Non Tenant</span>';
+                
+                $formattedData[] = [
+                    $start + $index + 1,
+                    $item->numberplate,
+                    $image,
+                    $status,
+                    $item->created_at->format('d-m-Y H:i:s'),
+                    $actions
+                ];
+            }
+            
+            return response()->json([
+                'draw' => intval($request->get('draw')),
+                'recordsTotal' => $totalRecords,
+                'recordsFiltered' => $totalFiltered,
+                'data' => $formattedData
+            ]);
+        }
+        
+        return response()->json(['error' => 'Invalid request'], 400);
     }
 
     /**

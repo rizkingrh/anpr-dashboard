@@ -36,6 +36,7 @@ Route::post('/login', [AuthController::class, 'authenticate']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::resource('history', HistoryController::class)->middleware('auth');
+Route::get('/history-datatables', [HistoryController::class, 'datatables'])->name('history.datatables')->middleware('auth');
 Route::resource('user', UserController::class)->middleware(['auth', 'admin']);
 Route::resource('tenant', TenantController::class)->middleware(['auth', 'admin']);
 // Route::get('/dashboard', [HistoryController::class, 'index'])->name('dashboard');

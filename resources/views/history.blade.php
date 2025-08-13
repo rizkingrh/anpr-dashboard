@@ -43,7 +43,8 @@
     <script src="/assets/plugins/pdfmake/build/vfs_fonts.js"></script>
     <script src="/assets/plugins/jszip/dist/jszip.min.js"></script>
 
-    <script src="/assets/js/demo/table-manage-default.demo.js"></script>
+    {{-- Remove this line to prevent conflicts --}}
+    {{-- <script src="/assets/js/demo/table-manage-default.demo.js"></script> --}}
     <script src="/assets/plugins/@highlightjs/cdn-assets/highlight.min.js"></script>
     <script src="/assets/js/demo/render.highlight.js"></script>
 
@@ -101,51 +102,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($data as $item)
-                        <tr class="odd">
-                            <td width=1% class="fw-bold">
-                                {{ $loop->iteration }}
-                            </td>
-                            <td>
-                                {{ $item->numberplate }}
-                            </td>
-                            <td>
-                                <a href="data:image/jpeg;base64,{{ $item->image }}" data-lity>
-                                    {{-- <img src="{{ asset($item->image) }}" alt="Plate Number" style="height:35px;"> --}}
-                                    <img src="data:image/jpeg;base64,{{ $item->image }}" alt="Plate Number" style="height:35px;">
-                                </a>
-                            </td>
-                            <td>
-                                @if ($item->tenant == 'yes')
-                                    <span class="badge bg-success rounded-pill">Tenant</span>
-                                @else
-                                    <span class="badge bg-danger rounded-pill">Non Tenant</span>
-                                @endif
-                            </td>
-                            <td>
-                                {{ $item->created_at }}
-                            </td>
-                            <td width="1%">
-                                <div class="d-flex gap-2">
-                                    <button type="button" class="btn btn-primary"
-                                        onclick="editNumberPlate({{ $item->id }}, '{{ $item->numberplate }}')">
-                                        <i class="fas fa-pen-to-square fa-sm"></i>
-                                    </button>
-                                    @can('admin')
-                                        <form id="delete-form-{{ $item->id }}"
-                                            action="{{ route('history.destroy', $item->id) }}" method="post">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="button" class="btn btn-danger"
-                                                onclick="confirmDelete({{ $item->id }})">
-                                                <i class="fas fa-trash-can fa-sm"></i>
-                                            </button>
-                                        </form>
-                                    @endcan
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
+                    {{-- datatable AJAX --}}
                 </tbody>
             </table>
         </div>

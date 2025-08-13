@@ -66,7 +66,7 @@ function updateNumberPlate(id, newNumberPlate) {
                     timer: 3000,
                     showConfirmButton: true,
                 }).then(() => {
-                    location.reload(); // Refresh halaman setelah update
+                    $('#data-table-default').DataTable().ajax.reload(); // Reload DataTable instead of page refresh
                 });
             } else {
                 Swal.fire("Error!", "Gagal memperbarui nomor plat.", "error");
@@ -76,3 +76,47 @@ function updateNumberPlate(id, newNumberPlate) {
             Swal.fire("Error!", "Terjadi kesalahan saat memperbarui data.", "error");
         });
 }
+
+// Initialize DataTable with server-side processing
+$(document).ready(function() {
+    $('#data-table-default').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: '/history-datatables',
+            type: 'GET',
+            error: function(xhr, error, thrown) {
+                console.error('DataTables error:', error, thrown);
+                Swal.fire('Error!', 'Gagal memuat data. Silakan refresh halaman.', 'error');
+            }
+        },
+        columns: [
+            { data: 0, name: 'id', orderable: false, searchable: false },
+            { data: 1, name: 'numberplate' },
+            { data: 2, name: 'image', orderable: false, searchable: false },
+            { data: 3, name: 'tenant' },
+            { data: 4, name: 'created_at' },
+            { data: 5, name: 'actions', orderable: false, searchable: false }
+        ],
+        order: [[4, 'desc']], // Order by created_at column (index 4) in descending order
+        pageLength: 25,
+        responsive: true,
+        language: {
+            processing: "Process...",
+            search: "Search:",
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ to _TOTAL_ entries",
+            infoEmpty: "Showing 0 to 0 to 0 entries",
+            infoFiltered: "(disaring to _MAX_ total entries)",
+            loadingRecords: "Loading...",
+            zeroRecords: "No data found",
+            emptyTable: "No data available in the table",
+            paginate: {
+                first: "First",
+                previous: "Previous",
+                next: "Next",
+                last: "Last"
+            }
+        }
+    });
+});
