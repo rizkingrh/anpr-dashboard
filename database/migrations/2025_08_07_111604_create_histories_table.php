@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('histories', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('numberplate');
-            $table->longText('image');
+            $table->string('vehicle_type', 25);
+            $table->string('vehicle_image');
+            $table->string('number_plate', 25);
+            $table->string('plate_image');
             $table->string('tenant', 5);
             $table->timestamps();
         });

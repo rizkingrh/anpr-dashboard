@@ -18,7 +18,7 @@
         // Pass server data to global variables
         window.dashboardData = {
             trendLabels: @json($trendLabels),
-            trendData: @json($trendData),
+            trendSeries: @json($trendSeries),
             notifications: {
                 success: "{{ session('success') }}".trim() || null
             }

@@ -16,11 +16,18 @@ function confirmDelete(id) {
     });
 }
 
-function editNumberPlate(id, oldNumberPlate) {
+function editHistory(id, oldVehicleType, oldNumberPlate) {
     Swal.fire({
-        title: "Edit Number Plate",
-        input: "text",
-        inputValue: oldNumberPlate,
+        title: "Edit Data",
+        html:
+            '<div class="mb-3 text-start">' +
+            '<label class="form-label fw-bold">Vehicle Type</label>' +
+            '<input id="swal-vehicle-type" class="swal2-input w-100 m-0" value="' + oldVehicleType + '">' +
+            '</div>' +
+            '<div class="mb-3 text-start">' +
+            '<label class="form-label fw-bold">Number Plate</label>' +
+            '<input id="swal-number-plate" class="swal2-input w-100 m-0" value="' + oldNumberPlate + '">' +
+            '</div>',
         showCancelButton: true,
         confirmButtonText: "Simpan",
         cancelButtonText: "Batal",
@@ -30,20 +37,28 @@ function editNumberPlate(id, oldNumberPlate) {
         allowOutsideClick: true,
         allowEscapeKey: true,
         draggable: true,
-        preConfirm: (newNumberPlate) => {
-            if (!newNumberPlate) {
-                Swal.showValidationMessage("Nomor plat tidak boleh kosong!");
+        focusConfirm: false,
+        preConfirm: () => {
+            const vehicleType = document.getElementById("swal-vehicle-type").value;
+            const numberPlate = document.getElementById("swal-number-plate").value;
+            if (!vehicleType) {
+                Swal.showValidationMessage("Vehicle type tidak boleh kosong!");
+                return false;
             }
-            return newNumberPlate;
+            if (!numberPlate) {
+                Swal.showValidationMessage("Number plate tidak boleh kosong!");
+                return false;
+            }
+            return { vehicle_type: vehicleType, number_plate: numberPlate };
         },
     }).then((result) => {
         if (result.isConfirmed) {
-            updateNumberPlate(id, result.value);
+            updateHistory(id, result.value.vehicle_type, result.value.number_plate);
         }
     });
 }
 
-function updateNumberPlate(id, newNumberPlate) {
+function updateHistory(id, vehicleType, numberPlate) {
     fetch(`/history/${id}`, {
         method: "PUT",
         headers: {
@@ -53,7 +68,8 @@ function updateNumberPlate(id, newNumberPlate) {
                 .getAttribute("content"),
         },
         body: JSON.stringify({
-            numberplate: newNumberPlate,
+            vehicle_type: vehicleType,
+            number_plate: numberPlate,
         }),
     })
         .then((response) => response.json())
@@ -61,15 +77,15 @@ function updateNumberPlate(id, newNumberPlate) {
             if (data.success) {
                 Swal.fire({
                     title: "Berhasil!",
-                    text: "Nomor plat berhasil diperbarui.",
+                    text: "Data berhasil diperbarui.",
                     icon: "success",
                     timer: 3000,
                     showConfirmButton: true,
                 }).then(() => {
-                    $('#data-table-default').DataTable().ajax.reload(); // Reload DataTable instead of page refresh
+                    $('#data-table-default').DataTable().ajax.reload();
                 });
             } else {
-                Swal.fire("Error!", "Gagal memperbarui nomor plat.", "error");
+                Swal.fire("Error!", "Gagal memperbarui data.", "error");
             }
         })
         .catch(() => {
@@ -78,27 +94,29 @@ function updateNumberPlate(id, newNumberPlate) {
 }
 
 // Initialize DataTable with server-side processing
-$(document).ready(function() {
+$(document).ready(function () {
     $('#data-table-default').DataTable({
         processing: true,
         serverSide: true,
         ajax: {
             url: '/history-datatables',
             type: 'GET',
-            error: function(xhr, error, thrown) {
+            error: function (xhr, error, thrown) {
                 console.error('DataTables error:', error, thrown);
                 Swal.fire('Error!', 'Gagal memuat data. Silakan refresh halaman.', 'error');
             }
         },
         columns: [
             { data: 0, name: 'id', orderable: false, searchable: false },
-            { data: 1, name: 'numberplate' },
-            { data: 2, name: 'image', orderable: false, searchable: false },
-            { data: 3, name: 'tenant' },
-            { data: 4, name: 'created_at' },
-            { data: 5, name: 'actions', orderable: false, searchable: false }
+            { data: 1, name: 'vehicle_type' },
+            { data: 2, name: 'vehicle_image', orderable: false, searchable: false },
+            { data: 3, name: 'number_plate' },
+            { data: 4, name: 'plate_image', orderable: false, searchable: false },
+            { data: 5, name: 'tenant' },
+            { data: 6, name: 'created_at' },
+            { data: 7, name: 'actions', orderable: false, searchable: false }
         ],
-        order: [[4, 'desc']], // Order by created_at column (index 4) in descending order
+        order: [[6, 'desc']], // Order by created_at column (index 6) in descending order
         pageLength: 25,
         responsive: true,
         language: {
@@ -107,7 +125,7 @@ $(document).ready(function() {
             lengthMenu: "Show _MENU_ entries",
             info: "Showing _START_ to _END_ to _TOTAL_ entries",
             infoEmpty: "Showing 0 to 0 to 0 entries",
-            infoFiltered: "(disaring to _MAX_ total entries)",
+            infoFiltered: "(filter to _MAX_ total entries)",
             loadingRecords: "Loading...",
             zeroRecords: "No data found",
             emptyTable: "No data available in the table",

@@ -37,27 +37,46 @@ class DashboardController extends Controller
             $activityDateEnd = Carbon::now()->format('Y-m-d');
         }
 
+        // Get activity trend grouped by date and vehicle_type
         $activityTrend = DB::table('histories')
-            ->selectRaw('DATE(created_at) as activity_date, COUNT(*) as total_entries')
+            ->selectRaw('DATE(created_at) as activity_date, LOWER(vehicle_type) as vehicle_type, COUNT(*) as total_entries')
             ->whereBetween('created_at', [
                     $activityDateStart . ' 00:00:00',
                     $activityDateEnd . ' 23:59:59'
                 ])
-            ->groupBy('activity_date')
+            ->groupBy('activity_date', 'vehicle_type')
             ->orderBy('activity_date', 'asc')
             ->get();
 
-        $trendLabels = $activityTrend->pluck('activity_date')->map(function ($date) {
+        // Get all unique dates for labels
+        $trendLabels = $activityTrend->pluck('activity_date')->unique()->sort()->values()->map(function ($date) {
             return Carbon::parse($date)->isoFormat('D MMM');
         });
-        $trendData = $activityTrend->pluck('total_entries');
+
+        $allDates = $activityTrend->pluck('activity_date')->unique()->sort()->values();
+
+        // Build per-vehicle-type series
+        $vehicleTypes = ['car', 'bus', 'truck'];
+        $trendSeries = [];
+
+        foreach ($vehicleTypes as $type) {
+            $dataByDate = $activityTrend->where('vehicle_type', $type)->pluck('total_entries', 'activity_date');
+            $seriesData = [];
+            foreach ($allDates as $date) {
+                $seriesData[] = $dataByDate[$date] ?? 0;
+            }
+            $trendSeries[] = [
+                'name' => ucfirst($type),
+                'data' => $seriesData,
+            ];
+        }
 
         // Return JSON response for AJAX requests
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,
                 'trendLabels' => $trendLabels,
-                'trendData' => $trendData,
+                'trendSeries' => $trendSeries,
                 'startDate' => $activityDateStart,
                 'endDate' => $activityDateEnd
             ]);
@@ -70,7 +89,7 @@ class DashboardController extends Controller
             'tenantDetect',
             'nonTenantDetect',
             'trendLabels',
-            'trendData'
+            'trendSeries'
         ));
     }
 }

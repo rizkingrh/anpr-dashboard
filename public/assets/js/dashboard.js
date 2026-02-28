@@ -19,7 +19,7 @@ let handleGritterNotification = (message) => {
 	}
 };
 
-let handleApexChart = function (trendLabels, trendData) {
+let handleApexChart = function (trendLabels, trendSeries) {
 	const options = {
 		chart: {
 			type: 'area',
@@ -31,10 +31,7 @@ let handleApexChart = function (trendLabels, trendData) {
 				enabled: false
 			}
 		},
-		series: [{
-			name: 'Jumlah Entri',
-			data: trendData
-		}],
+		series: trendSeries,
 		xaxis: {
 			categories: trendLabels,
 		},
@@ -48,12 +45,24 @@ let handleApexChart = function (trendLabels, trendData) {
 			curve: 'smooth',
 			width: 2
 		},
-		colors: ['#348FE2'],
+		colors: ['#2ca02c', '#ff8c00', '#dc3545'],
 		dataLabels: {
 			enabled: false
 		},
 		legend: {
 			position: 'top'
+		},
+		fill: {
+			type: 'gradient',
+			gradient: {
+				opacityFrom: 0.4,
+				opacityTo: 0.05,
+				stops: [0, 95, 100]
+			}
+		},
+		tooltip: {
+			shared: true,
+			intersect: false
 		}
 	};
 
@@ -125,9 +134,9 @@ let handleDateRangeFilter = function () {
 				console.log('Success:', response);
 				// Handle the successful response here
 				// // For example, update charts or tables with new data
-				if (response.trendLabels && response.trendData) {
+				if (response.trendLabels && response.trendSeries) {
 					// Update your chart with new data
-					updateChart(response.trendLabels, response.trendData);
+					updateChart(response.trendLabels, response.trendSeries);
 				}
 			},
 			error: function (xhr, status, error) {
@@ -142,8 +151,8 @@ let handleDateRangeFilter = function () {
 };
 
 // Function to update ApexCharts chart
-function updateChart(labels, data) {
-	console.log('Updating chart with:', { labels, data });
+function updateChart(labels, trendSeries) {
+	console.log('Updating chart with:', { labels, trendSeries });
 
 	// Check if chart exists
 	if (activityChart) {
@@ -155,10 +164,7 @@ function updateChart(labels, data) {
 		}, false, false); // false parameters prevent redraw until series update
 
 		// Update series data
-		activityChart.updateSeries([{
-			name: 'Jumlah Entri',
-			data: data
-		}]);
+		activityChart.updateSeries(trendSeries);
 
 		console.log('Chart updated successfully');
 	} else {
@@ -170,9 +176,9 @@ let Dashboard = function () {
 	"use strict";
 	return {
 		//main function
-		init: function (trendLabels, trendData, notifications = {}) {
-			if (trendLabels && trendData) {
-				handleApexChart(trendLabels, trendData);
+		init: function (trendLabels, trendSeries, notifications = {}) {
+			if (trendLabels && trendSeries) {
+				handleApexChart(trendLabels, trendSeries);
 			}
 			if (notifications.success) {
 				handleGritterNotification(notifications.success);
@@ -187,7 +193,7 @@ $(document).ready(function() {
 	if (window.dashboardData) {
 		Dashboard.init(
 			window.dashboardData.trendLabels,
-			window.dashboardData.trendData,
+			window.dashboardData.trendSeries,
 			window.dashboardData.notifications
 		);
 	} else {

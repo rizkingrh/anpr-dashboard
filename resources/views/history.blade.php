@@ -71,6 +71,33 @@
     <div class="panel panel-inverse">
         <!-- BEGIN panel-heading -->
         <div class="panel-heading">
+            <h4 class="panel-title">Last History
+                <span class="ms-2">
+                    <i class="fa fa-info-circle" data-bs-toggle="popover" data-bs-trigger="hover"
+                        data-bs-title="Plates history" data-bs-placement="right"
+                        data-bs-content="Menampilkan last data history"></i>
+                </span>
+            </h4>
+            <div class="panel-heading-btn">
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i
+                        class="fa fa-expand"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i
+                        class="fa fa-redo"></i></a>
+                <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i
+                        class="fa fa-minus"></i></a>
+            </div>
+        </div>
+        <!-- END panel-heading -->
+        <!-- BEGIN panel-body -->
+        <div class="panel-body">
+            <livewire:last-history />
+        </div>
+        <!-- END panel-body -->
+    </div>
+
+    <div class="panel panel-inverse">
+        <!-- BEGIN panel-heading -->
+        <div class="panel-heading">
             <h4 class="panel-title">Plates History
                 <span class="ms-2">
                     <i class="fa fa-info-circle" data-bs-toggle="popover" data-bs-trigger="hover"
@@ -94,6 +121,8 @@
                 <thead>
                     <tr>
                         <th width="1%">No</th>
+                        <th class="text-nowrap">Vehicle Type</th>
+                        <th class="text-nowrap">Vehicle Image</th>
                         <th class="text-nowrap">Number Plate</th>
                         <th class="text-nowrap">Plate Image</th>
                         <th class="text-nowrap">Status</th>

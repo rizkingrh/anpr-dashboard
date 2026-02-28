@@ -12,28 +12,36 @@ class ApiController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'numberplate' => 'required|string',
-            'image' => 'required|string',
+            'vehicle_type' => 'required|string|max:25',
+            'vehicle_image' => 'required|image',
+            'number_plate' => 'required|string|max:25',
+            'plate_image' => 'required|image',
         ]);
 
         try {
-            $tenant = Tenant::where('vehicle_plate', $request->input('numberplate'))->first();
+            $vehicleImagePath = $request->file('vehicle_image')->store('vehicles', 'public');
+            $plateImagePath = $request->file('plate_image')->store('plates', 'public');
+
+            $tenant = Tenant::where('vehicle_plate', $request->input('number_plate'))->first();
+
             $data = [
-                'numberplate' => $request->input('numberplate'),
-                'image' => $request->input('image'),
+                'vehicle_type' => $request->input('vehicle_type'),
+                'vehicle_image' => $vehicleImagePath,
+                'number_plate' => $request->input('number_plate'),
+                'plate_image' => $plateImagePath,
                 'tenant' => $tenant ? 'yes' : 'no',
             ];
-            
+
             History::create($data);
 
             return response()->json([
-                'message' => 'Gambar berhasil disimpan!', 
-                'data' => $data], 
+                'message' => 'Data berhasil disimpan!',
+                'data' => $data],
                 201);
 
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Gagal menyimpan gambar.',
+                'message' => 'Gagal menyimpan data.',
                 'error' => $e->getMessage()],
                 500);
         }
