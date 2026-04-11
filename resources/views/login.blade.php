@@ -49,7 +49,7 @@
 			<div class="login-header">
 				<div class="brand">
 					<div class="d-flex align-items-center">
-						<img src="{{ asset('assets/img/logo_ksp.png') }}" alt="Logo" style="height:45px;">
+						<img src="{{ asset('assets/img/logo.png') }}" alt="Logo" style="height:75px;">
 					</div>
 				</div>
 				<div class="icon">

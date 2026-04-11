@@ -7,7 +7,7 @@
                     <a href="javascript:;" class="menu-profile-link" data-toggle="app-sidebar-profile">
                         <div class="menu-profile-cover with-shadow"></div>
                         <div class="menu-profile-image">
-                            <img src="{{ asset('assets/img/ks-icon.png') }}" alt="" />
+                            <img src="{{ asset('assets/img/logo.png') }}" alt="" />
                         </div>
                         <div class="menu-profile-info">
                             <div class="d-flex align-items-center">
@@ -43,6 +43,7 @@
                 </a>
             </div>
 
+            
             <div class="menu-item  {{ Request::is('tenant') ? 'active' : '' }}">
                 <a href="{{ url('tenant') }}" class="menu-link">
                     <div class="menu-icon"><i class="fa fa-user-lock"></i></div>

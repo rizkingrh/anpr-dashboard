@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\History;
+
 use App\Tenant;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -22,6 +23,7 @@ class ApiController extends Controller
             $vehicleImagePath = $request->file('vehicle_image')->store('vehicles', 'public');
             $plateImagePath = $request->file('plate_image')->store('plates', 'public');
 
+
             $tenant = Tenant::where('vehicle_plate', $request->input('number_plate'))->first();
 
             $data = [
@@ -29,6 +31,7 @@ class ApiController extends Controller
                 'vehicle_image' => $vehicleImagePath,
                 'number_plate' => $request->input('number_plate'),
                 'plate_image' => $plateImagePath,
+                // 'tenant' => 'no',
                 'tenant' => $tenant ? 'yes' : 'no',
             ];
 

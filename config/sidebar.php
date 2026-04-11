@@ -31,6 +31,7 @@ return [
 			'url' => '/history',
 			'route-name' => 'history.index'
 		],
+		
 		[
 			'icon' => 'fa fa-user-lock',
 			'title' => 'Tenants',

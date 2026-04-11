@@ -17,7 +17,7 @@
 		</button>
 		@endif
 		<a href="/" class="navbar-brand">
-			<img src="{{ asset('assets/img/logo_ksp.png') }}" alt="Logo" style="height:45px;">
+			<img src="{{ asset('assets/img/logo.png') }}" alt="Logo" style="height:45px;">
 		</a>
 		@if ($appHeaderMegaMenu && !$appSidebarTwo)
 		<button type="button" class="navbar-mobile-toggler" data-bs-toggle="collapse" data-bs-target="#top-navbar">
@@ -61,7 +61,7 @@
 		
 		<div class="navbar-item navbar-user dropdown">
 			<a href="#" class="navbar-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
-				<img src="{{ asset('assets/img/ks-icon.png') }}" alt="" /> 
+				<img src="{{ asset('assets/img/logo.png') }}" alt="" /> 
 				<span>
 					<span class="d-none d-md-inline">{{ auth()->user()->name }}</span>
 					<b class="caret"></b>
