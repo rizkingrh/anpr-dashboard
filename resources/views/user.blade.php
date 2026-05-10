@@ -129,6 +129,7 @@
                             @can('admin')
                                 <td width="1%">
                                     <div class="d-flex gap-2">
+                                        <a href="{{ route('user.edit', $item->id) }}" class="btn btn-primary"><i class="fas fa-pen-to-square fa-sm"></i></a>
                                         <form id="delete-form-{{ $item->id }}"
                                             action="{{ route('user.destroy', $item->id) }}" method="POST">
                                             @csrf

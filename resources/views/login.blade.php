@@ -72,12 +72,12 @@
 							<input type="password" id="password" name="password" class="form-control fs-13px h-45px" placeholder="Password" required />
 							<label for="password" class="d-flex align-items-center py-0">Password</label>
 						</div>
-						<div class="form-check mb-20px">
+						{{-- <div class="form-check mb-20px">
 							<input class="form-check-input" type="checkbox" value="" id="rememberMe" name="rememberMe" />
 							<label class="form-check-label" for="rememberMe">
 								Remember Me
 							</label>
-						</div>
+						</div> --}}
 						<div class="login-buttons">
 							<button type="submit" class="btn h-45px btn-theme d-block w-100 btn-lg">Log in</button>
 						</div>

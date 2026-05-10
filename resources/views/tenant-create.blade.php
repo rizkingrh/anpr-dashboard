@@ -22,11 +22,11 @@
     <ol class="breadcrumb float-xl-end">
         <li class="breadcrumb-item"><a href="{{ url('dashboard') }}">Dashboard</a></li>
         <li class="breadcrumb-item"><a href="{{ url('tenant') }}">Tenant</a></li>
-        <li class="breadcrumb-item active">Edit Tenant</li>
+        <li class="breadcrumb-item active">Tambah Tenant</li>
     </ol>
     <!-- END breadcrumb -->
     <!-- BEGIN page-header -->
-    <h1 class="page-header mb-3">Edit Tenant</h1>
+    <h1 class="page-header mb-3">Tambah Tenant</h1>
     <!-- END page-header -->
     <div class="panel panel-inverse">
         <!-- BEGIN panel-heading -->
@@ -49,16 +49,15 @@
         <!-- END panel-heading -->
         <!-- BEGIN panel-body -->
         <div class="panel-body">
-            <form action="{{ route('tenant.update', $tenant->id) }}" method="POST">
+            <form action="{{ route('tenant.store') }}" method="POST">
                 @csrf
-                @method('PUT')
                 <fieldset>
                     <div class="row mb-3">
                         <label class="form-label col-form-label col-md-3">Vehicle Plate <span
                                 class="text-red-500">*</span>:</label>
                         <div class="col-md-9">
                             <input type="text" name="vehicle_plate" class="form-control"
-                                value="{{ $tenant->vehicle_plate }}" required />
+                            placeholder="Enter vehicle plate" required />
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -66,14 +65,16 @@
                             :</label>
                         <div class="col-md-9">
                             <input type="text" name="vehicle_type" class="form-control"
-                                value="{{ $tenant->vehicle_type }}" required />
+                            placeholder="Enter vehicle type"
+                                required />
                         </div>
                     </div>
                     <div class="row mb-3">
                         <label class="form-label col-form-label col-md-3">Brand <span class="text-red-500">*</span>
                             :</label>
                         <div class="col-md-9">
-                            <input type="text" name="brand" class="form-control" value="{{ $tenant->brand }}"
+                            <input type="text" name="brand" class="form-control"
+                            placeholder="Enter brand"
                                 required />
                         </div>
                     </div>
@@ -81,7 +82,7 @@
                         <label class="form-label col-form-label col-md-3">Color <span class="text-red-500">*</span>
                             :</label>
                         <div class="col-md-9">
-                            <input type="text" name="color" class="form-control" value="{{ $tenant->color }}"
+                            <input type="text" name="color" class="form-control" placeholder="Enter color"
                                 required />
                         </div>
                     </div>

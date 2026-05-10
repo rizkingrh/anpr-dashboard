@@ -1,6 +1,6 @@
 @extends('layouts.default')
 
-@section('title', 'Tenant')
+@section('title', 'User')
 
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -21,20 +21,20 @@
     <!-- BEGIN breadcrumb -->
     <ol class="breadcrumb float-xl-end">
         <li class="breadcrumb-item"><a href="{{ url('dashboard') }}">Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="{{ url('tenant') }}">Tenant</a></li>
-        <li class="breadcrumb-item active">Edit Tenant</li>
+        <li class="breadcrumb-item"><a href="{{ url('user') }}">User</a></li>
+        <li class="breadcrumb-item active">Edit User</li>
     </ol>
     <!-- END breadcrumb -->
     <!-- BEGIN page-header -->
-    <h1 class="page-header mb-3">Edit Tenant</h1>
+    <h1 class="page-header mb-3">Edit User</h1>
     <!-- END page-header -->
     <div class="panel panel-inverse">
         <!-- BEGIN panel-heading -->
         <div class="panel-heading">
-            <h4 class="panel-title">Tenant List
+            <h4 class="panel-title">User List
                 <span class="ms-2">
-                    <i class="fa fa-info-circle" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-title="Tenant List"
-                        data-bs-placement="right" data-bs-content="Seluruh data tenant yang teregistrasi pada dashboard"></i>
+                    <i class="fa fa-info-circle" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-title="User list"
+                        data-bs-placement="right" data-bs-content="Seluruh data user yang teregistrasi pada dashboard"></i>
                 </span>
             </h4>
             <div class="panel-heading-btn">
@@ -49,40 +49,44 @@
         <!-- END panel-heading -->
         <!-- BEGIN panel-body -->
         <div class="panel-body">
-            <form action="{{ route('tenant.update', $tenant->id) }}" method="POST">
+            <form action="{{ route('user.update', $user->id) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <fieldset>
                     <div class="row mb-3">
-                        <label class="form-label col-form-label col-md-3">Vehicle Plate <span
-                                class="text-red-500">*</span>:</label>
+                        <label class="form-label col-form-label col-md-3">Nama <span class="text-red-500">*</span>:</label>
                         <div class="col-md-9">
-                            <input type="text" name="vehicle_plate" class="form-control"
-                                value="{{ $tenant->vehicle_plate }}" required />
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label class="form-label col-form-label col-md-3">Vehicle Type <span class="text-red-500">*</span>
-                            :</label>
-                        <div class="col-md-9">
-                            <input type="text" name="vehicle_type" class="form-control"
-                                value="{{ $tenant->vehicle_type }}" required />
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label class="form-label col-form-label col-md-3">Brand <span class="text-red-500">*</span>
-                            :</label>
-                        <div class="col-md-9">
-                            <input type="text" name="brand" class="form-control" value="{{ $tenant->brand }}"
+                            <input type="text" name="name" class="form-control" value="{{ $user->name }}"
                                 required />
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="form-label col-form-label col-md-3">Color <span class="text-red-500">*</span>
+                        <label class="form-label col-form-label col-md-3">Username <span class="text-red-500">*</span>
                             :</label>
                         <div class="col-md-9">
-                            <input type="text" name="color" class="form-control" value="{{ $tenant->color }}"
+                            <input type="text" name="username" class="form-control" value="{{ $user->username }}"
                                 required />
+                            <small class="fs-12px text-gray-500-darker "><span class="text-red-500">Notes: </span>Username
+                                harus unik, tidak boleh sama dengan user lain!</small>
+                        </div>
+                    </div>
+                    {{-- <div class="row mb-3">
+                        <label class="form-label col-form-label col-md-3">Password <span class="text-red-500">*</span>
+                            :</label>
+                        <div class="col-md-9">
+                            <input type="password" name="password" class="form-control" placeholder="Enter password"
+                                required />
+                        </div>
+                    </div> --}}
+                    <div class="row mb-3">
+                        <label class="form-label col-form-label col-md-3">User Role <span class="text-red-500">*</span>
+                            :</label>
+                        <div class="col-md-9">
+                            <select class="form-select" name="role" required>
+                                <option selected="" disabled hidden>Pilih role</option>
+                                <option value="admin" {{ $user->role === 'admin' ? 'selected' : '' }}>Admin</option>
+                                <option value="user" {{ $user->role === 'user' ? 'selected' : '' }}>User</option>
+                            </select>
                         </div>
                     </div>
                     <div class="row">

@@ -1,6 +1,4 @@
-<div class="dropdown-menu dropdown-menu-end me-1">
-	<a href="javascript:;" class="dropdown-item">Setting</a>
-	<div class="dropdown-divider"></div>
+<div class="dropdown-menu dropdown-menu-end me-1"> 
 	<form action="{{ url('logout') }}" method="POST">
 		@csrf
 		<button type="submit" class="dropdown-item">

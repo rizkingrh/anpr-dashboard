@@ -154,9 +154,9 @@
         </div>
         <!-- END panel-body -->
     </div>
-    {{-- <div class="d-flex justify-content-end">
-        <a href="{{ route('user.create') }}" class="btn btn-primary">
-            <i class="fas fa-plus me-2"></i>Tambah User
+    <div class="d-flex justify-content-end">
+        <a href="{{ route('tenant.create') }}" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i>Tambah Tenant
         </a>
-    </div> --}}
+    </div>
 @endsection

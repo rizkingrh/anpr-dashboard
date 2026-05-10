@@ -21,7 +21,7 @@ class TenantController extends Controller
      */
     public function create()
     {
-        //
+        return view('tenant-create');
     }
 
     /**
@@ -29,7 +29,21 @@ class TenantController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'vehicle_plate' => 'required|string',
+            'vehicle_type' => 'required|string',
+            'brand' => 'required|string',
+            'color' => 'required|string',
+        ]);
+
+        Tenant::create([
+            'vehicle_plate' => $request->vehicle_plate,
+            'vehicle_type' => $request->vehicle_type,
+            'brand' => $request->brand,
+            'color' => $request->color,
+        ]);
+
+        return redirect()->route('tenant.index')->with('success', 'Tenant berhasil ditambahkan!');
     }
 
     /**
